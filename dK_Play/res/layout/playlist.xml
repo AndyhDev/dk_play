@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/playlist"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.dk.play.util.DynamicListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:divider="@color/orange"
+        android:dividerHeight="2dip"
+        android:listSelector="@drawable/songlist_select_color"  />
+
+</RelativeLayout>

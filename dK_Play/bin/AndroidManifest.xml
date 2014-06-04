@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dk.play"
+    android:installLocation="internalOnly"
+    android:versionCode="4"
+    android:versionName="1.3" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <application
+        android:name="com.dk.play.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.dk.play.DkPlay"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <receiver android:name="com.dk.play.service.BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.dk.play.service.PlayService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
+        </service>
+
+        <activity
+            android:name="com.dk.play.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.dk.play.DkPlay" >
+        </activity>
+        <activity
+            android:name="com.dk.play.CurPlaylist"
+            android:label="@string/title_activity_cur_playlist"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.dk.play.DkPlay" >
+        </activity>
+
+        <receiver android:name="com.dk.play.service.LockScreenReceiver" >
+            <intent-filter>
+                <action android:name="android.test.BROADCAST" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.dk.play.service.RemoteControlReceiver" >
+            <intent-filter>
+                <action android:name="android.test.BROADCAST" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.dk.play.SearchActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_search"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.dk.play.RemovedActivity"
+            android:label="@string/title_activity_removed" >
+        </activity>
+        <activity
+            android:name="com.dk.play.PlaylistActivity"
+            android:label="@string/title_activity_playlist" >
+        </activity>
+        <activity
+            android:name="com.dk.play.AutoPlaylistActivity"
+            android:label="@string/title_activity_auto_playlist" >
+        </activity>
+        <activity
+            android:name="com.dk.play.SpecialPlaylist"
+            android:label="@string/title_activity_special_playlist" >
+        </activity>
+
+        <receiver
+            android:name="com.dk.play.widget.WidgetBigReceiver"
+            android:label="@string/widget_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+        <receiver
+            android:name="com.dk.play.widget.WidgetBig2Receiver"
+            android:label="@string/widget2_name" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget2_info" />
+        </receiver>
+
+        <activity
+            android:name="com.dk.play.FirstLaunchActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_first_launch"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.dk.play.VideoEditActivity"
+            android:label="@string/title_activity_video_edit" >
+        </activity>
+        <activity
+            android:name="com.dk.play.MusicEditActivity"
+            android:label="@string/title_activity_music_edit" >
+        </activity>
+
+        <provider
+            android:name="com.dk.play.util.SearchProvider"
+            android:authorities="com.dk.play.util.SearchProvider"
+            android:exported="false"
+            android:multiprocess="true" >
+        </provider>
+
+        <activity
+            android:name="com.dk.play.InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
+    </application>
+
+</manifest>

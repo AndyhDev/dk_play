@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">dK Play</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="cover_art">Cover</string>
+    <string name="action_search">Medien suchen</string>
+    <string name="action_re_create">Datenback neu anlegen</string>
+    <string name="play_at_boot">Wiedergabe nach dem Booten starten</string>
+    <string name="loop_modus">Start Loopmodus</string>
+
+    <string-array name="loop_modus_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="loop_modus_names">
+        <item>keine Schleife</item>
+        <item>Schleife</item>
+        <item>immer der gleiche Song</item>
+        <item>zufalls Wiedergabe</item>
+    </string-array>
+
+    <string name="pref_loop_default">1</string>
+    <string name="drawer_open">Auf</string>
+    <string name="drawer_close">Zu</string>
+    <string name="title_activity_cur_playlist">aktuelle Playlist</string>
+    <string name="cancel">abbrechen</string>
+    <string name="ok">OK</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="add">Hinzufügen</string>
+    <string name="title_activity_search">Suche&#8230;</string>
+    <string name="title_activity_removed">Alle gelöschte Medien</string>
+    <string name="action_removed_songs">gelöschte Medien</string>
+    <string name="start_song">Start Song</string>
+    <string name="new_playlist_name">Playlist Name:</string>
+    <string name="create">erstellen</string>
+    <string name="playlist_exists">Diese Playlist existiert bereits</string>
+    <string name="playlist_created">Playlist wurde erstellt</string>
+    <string name="playlist_no_name">keinen Namen eingegeben</string>
+    <string name="title_activity_playlist">PlaylistActivity</string>
+    <string name="title_activity_auto_playlist">Automatiche Playlisten</string>
+    <string name="delete">löschen</string>
+    <string name="playlist_deleted">Playlist wurde gelöscht</string>
+    <string name="playlist_main">alle Titel</string>
+    <string name="playlist_most">die meistgespielten</string>
+    <string name="playlist_date">die neuesten</string>
+    <string name="playlist_r5">5 Sterne</string>
+    <string name="playlist_r4">4 Sterne</string>
+    <string name="playlist_r3">3 Sterne</string>
+    <string name="playlist_r2">2 Sterne</string>
+    <string name="playlist_r1">1 Sterne</string>
+    <string name="playlist_r0">0 Sterne</string>
+    <string name="title_activity_special_playlist">Playlist</string>
+    <string name="playlist_click">meist geklickte</string>
+    <string name="widget_name">dK Play klein</string>
+    <string name="widget2_name">dK Play groß</string>
+    <string name="title_activity_first_launch">Willkommen</string>
+    <string name="hello_first_launch">Hallo,\ntoll das du dich für dK Play entschieden hast!</string>
+    <string name="search_first_launch">Dein Gerät wird nach Musik durchsucht&#8230;\n(dies kann ein paar Sekunden dauern)</string>
+    <string name="found_first_launch">Schon %1$d gefundene Medien</string>
+    <string name="found_end_first_launch">Suche abgeschlossen.\nEs wurden %1$d Medien gefunden.\nViel Spaß beim anhören!</string>
+    <string name="next">weiter</string>
+    <string name="title_activity_video_edit">Eintrag bearbeiten</string>
+    <string name="title">Titel</string>
+    <string name="artist">Artist</string>
+    <string name="genre">Genre</string>
+    <string name="rating">Bewertung</string>
+    <string name="cover">Cover</string>
+    <string name="save">speichern</string>
+    <string name="insert_title">bitte einen Titel eingeben</string>
+    <string name="saved">gespeichert</string>
+    <string name="title_activity_music_edit">Eintrag bearbeiten</string>
+    <string name="action_search_actionbar">suchen</string>
+    <string name="search_hint">Song suchen</string>
+    <string name="contentDescription">no</string>
+    <string name="founded">Gefunden:</string>
+    <string name="title_activity_info">Info</string>
+    <string name="impressum">Angaben gemäß § 5 TMG:\nAndreas Hofmann\nGartenstraße 13\n88422 Bad Buchau\n\n<b>Kontakt:</b>\nE-Mail: Andreas.Hofmann@linux.com</string>
+    <string name="versions_code">2.0</string>
+	<string name="version">Version:</string>
+	<string name="medium_not_in_list">Dieses Medium ist nicht in der Wiedergabeliste,\nsoll es hinzugefügt werden?</string>
+	<string name="no_playlist">noch keine Playlisten vorhanden, bitte anlegen!</string>
+	<string name="playlist_added">zur Playlist hinzugefügt</string>
+	<string name="medium_exists">Medium vorhanden</string>
+	<string name="medium_is_in_list">Dieses Medium ist bereits in der Playlist</string>
+	<string name="medium_delete_long">Möchtests du diese Medium aus der DkPlay Datenbank entfernen?</string>
+	<string name="medium_delete">Medium löschen</string>
+	<string name="add_to_playlist">zu einer Playlist hinzufügen</string>
+	<string name="medium_edit">Medium bearbeiten</string>
+	<string name="choice">Auswahl:</string>
+	<string name="medium_not_present">Medium nicht vorhanden</string>
+	<string name="medium_corrupt">fehlerhaftes Medium</string>
+	<string name="medium_corrupt_long">Die Datei: \n%1$s\nscheint beschädigt zu sein, oder das Format kann nicht wiedergegeben werden.\n\nMöchtests du diese Medium aus der DkPlay Datenbank entfernen?</string>
+	<string name="playlist_delete">Playlist löschen</string>
+	<string name="playlist_delete_long">Sicher das sie die Playlist:\n%1$s\nlöschen möchten?</string>
+	<string name="re_create_database">Datenbank neu anlegen?</string>
+	<string name="re_create_database_long">Willst du die Musik-Datenbank wirklich neu anlegen?\nDabei gehen alle </string>
+	<string name="action_canceled">Aktion abgebrochen</string>
+	<string name="re_create_database_ok">Datenbank wurde neu angelegt!</string>
+	<string name="share_title">zeige was du hörst!</string>
+	<string name="share_subject">Hey, ich höre gerade Musik!</string>
+	<string name="share_body1">Ich höre gerade "%1$s" von %2$s</string>
+	<string name="share_body2">Ich höre gerade "%1$s"</string>
+</resources>

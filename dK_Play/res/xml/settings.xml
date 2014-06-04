@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <CheckBoxPreference android:defaultValue="false" android:key="play_at_boot" android:title="@string/play_at_boot"/>
+    <ListPreference android:key="loop_modus" android:title="@string/loop_modus" android:entries="@array/loop_modus_names" android:entryValues="@array/loop_modus_values" android:defaultValue="@string/pref_loop_default" />
+	<ListPreference android:key="start_song" android:title="@string/start_song" />
+</PreferenceScreen>

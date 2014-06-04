@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="genre_array_full">
+        <item>kein</item>
+        <item>A capella</item>
+        <item>Abstract</item>
+        <item>Acid</item>
+        <item>Acid Jazz</item>
+        <item>Acid Punk</item>
+        <item>Acoustic</item>
+        <item>Alternative</item>
+        <item>Alternative Rock</item>
+        <item>Ambient</item>
+        <item>Anime</item>
+        <item>Art Rock</item>
+        <item>Audio Theatre</item>
+        <item>Audiobook</item>
+        <item>Avantgarde</item>
+        <item>Ballad</item>
+        <item>Baroque</item>
+        <item>Bass</item>
+        <item>Beat</item>
+        <item>Bebop</item>
+        <item>Bhangra</item>
+        <item>Big Band</item>
+        <item>Big Beat</item>
+        <item>Black Metal</item>
+        <item>Bluegrass</item>
+        <item>Blues</item>
+        <item>Booty Bass</item>
+        <item>Breakbeat</item>
+        <item>BritPop</item>
+        <item>Cabaret</item>
+        <item>Celtic</item>
+        <item>Chamber Music</item>
+        <item>Chanson</item>
+        <item>Chillout</item>
+        <item>Chorus</item>
+        <item>Christian Gangsta Rap</item>
+        <item>Christian Rap</item>
+        <item>Christian Rock</item>
+        <item>Classic Rock</item>
+        <item>Classical</item>
+        <item>Club</item>
+        <item>Club-House</item>
+        <item>Comedy</item>
+        <item>Contemporary Christian</item>
+        <item>Country</item>
+        <item>Crossover</item>
+        <item>Cult</item>
+        <item>Dance</item>
+        <item>Dance Hall</item>
+        <item>Darkwave</item>
+        <item>Death Metal</item>
+        <item>Disco</item>
+        <item>Downtempo</item>
+        <item>Dream</item>
+        <item>Drum &amp; Bass</item>
+        <item>Drum Solo</item>
+        <item>Dub</item>
+        <item>Dubstep</item>
+        <item>Duet</item>
+        <item>EBM</item>
+        <item>Easy Listening</item>
+        <item>Eclectic</item>
+        <item>Electro</item>
+        <item>Electroclash</item>
+        <item>Electronic</item>
+        <item>Emo</item>
+        <item>Ethnic</item>
+        <item>Euro-House</item>
+        <item>Euro-Techno</item>
+        <item>Eurodance</item>
+        <item>Experimental</item>
+        <item>Fast Fusion</item>
+        <item>Folk</item>
+        <item>Folk-Rock</item>
+        <item>Folklore</item>
+        <item>Freestyle</item>
+        <item>Funk</item>
+        <item>Fusion</item>
+        <item>G-Funk</item>
+        <item>Game</item>
+        <item>Gangsta</item>
+        <item>Garage</item>
+        <item>Garage Rock</item>
+        <item>Global</item>
+        <item>Goa</item>
+        <item>Gospel</item>
+        <item>Gothic</item>
+        <item>Gothic Rock</item>
+        <item>Grunge</item>
+        <item>Hard Rock</item>
+        <item>Hardcore Techno</item>
+        <item>Heavy Metal</item>
+        <item>Hip-Hop</item>
+        <item>House</item>
+        <item>Humour</item>
+        <item>IDM</item>
+        <item>Illbient</item>
+        <item>Indie</item>
+        <item>Indie Rock</item>
+        <item>Industrial</item>
+        <item>Industro-Goth</item>
+        <item>Instrumental</item>
+        <item>Instrumental Pop</item>
+        <item>Instrumental Rock</item>
+        <item>Jam Band</item>
+        <item>Jazz</item>
+        <item>Jazz &amp; Funk</item>
+        <item>Jpop</item>
+        <item>Jungle</item>
+        <item>Krautrock</item>
+        <item>Latin</item>
+        <item>Leftfield</item>
+        <item>Lo-Fi</item>
+        <item>Lounge</item>
+        <item>Math Rock</item>
+        <item>Meditative</item>
+        <item>Merengue</item>
+        <item>Metal</item>
+        <item>Musical</item>
+        <item>National Folk</item>
+        <item>Native US</item>
+        <item>Negerpunk</item>
+        <item>Neoclassical</item>
+        <item>Neue Deutsche Welle</item>
+        <item>New Age</item>
+        <item>New Romantic</item>
+        <item>New Wave</item>
+        <item>Noise</item>
+        <item>Nu-Breakz</item>
+        <item>Oldies</item>
+        <item>Opera</item>
+        <item>Other</item>
+        <item>Podcast</item>
+        <item>Polka</item>
+        <item>Polsk Punk</item>
+        <item>Pop</item>
+        <item>Pop-Folk</item>
+        <item>Pop/Funk</item>
+        <item>Porn Groove</item>
+        <item>Post-Punk</item>
+        <item>Post-Rock</item>
+        <item>Power Ballad</item>
+        <item>Pranks</item>
+        <item>Primus</item>
+        <item>Progressive Rock</item>
+        <item>Psybient</item>
+        <item>Psychedelic</item>
+        <item>Psychedelic Rock</item>
+        <item>Psytrance</item>
+        <item>Punk</item>
+        <item>Punk Rock</item>
+        <item>Rap</item>
+        <item>Rave</item>
+        <item>Reggae</item>
+        <item>Retro</item>
+        <item>Revival</item>
+        <item>Rhythm and Blues</item>
+        <item>Rhythmic Soul</item>
+        <item>Rock</item>
+        <item>Rock &amp; Roll</item>
+        <item>Salsa</item>
+        <item>Samba</item>
+        <item>Satire</item>
+        <item>Shoegaze</item>
+        <item>Showtunes</item>
+        <item>Ska</item>
+        <item>Slow Jam</item>
+        <item>Slow Rock</item>
+        <item>Sonata</item>
+        <item>Soul</item>
+        <item>Sound Clip</item>
+        <item>Soundtrack</item>
+        <item>Southern Rock</item>
+        <item>Space</item>
+        <item>Space Rock</item>
+        <item>Speech</item>
+        <item>Swing</item>
+        <item>Symphonic Rock</item>
+        <item>Symphony</item>
+        <item>Synthpop</item>
+        <item>Tango</item>
+        <item>Techno</item>
+        <item>Techno-Industrial</item>
+        <item>Terror</item>
+        <item>Thrash Metal</item>
+        <item>Top 40</item>
+        <item>Trailer</item>
+        <item>Trance</item>
+        <item>Tribal</item>
+        <item>Trip-Hop</item>
+        <item>Trop Rock</item>
+        <item>Vocal</item>
+        <item>World Music</item>
+    </string-array>
+
+</resources>
