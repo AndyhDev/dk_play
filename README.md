@@ -1,6 +1,6 @@
 dK Play
 =======
-by <dev/>
+> by <dev/>
 
 dK Play ist ein Musikplyer für Android, dieses Repository enthält das gesammte Eclipse Projekt dazu
 
