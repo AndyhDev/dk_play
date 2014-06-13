@@ -10,6 +10,9 @@ public class App extends Application {
 	public static Resources getResourcesStatic() {
 		return context.getResources();
 	}
+	public static Context getContextStatic() {
+		return context;
+	}
 
 	@SuppressWarnings("static-access")
 	@Override

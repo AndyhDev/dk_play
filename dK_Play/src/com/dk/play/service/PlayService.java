@@ -89,7 +89,9 @@ MediaPlayer.OnCompletionListener {
 	public static final String PLAYLIST_ID = "com.dk.play.service.PLAYLIST_ID";
 	public static final String PLAYLIST_CREATED = "com.dk.play.service.PLAYLIST_CREATED";
 	public static final String PLAYLIST_DELETED = "com.dk.play.service.PLAYLIST_DELETED";
-
+	
+	public static final String WIDGET_SONG_ID = "SONG_ID";
+	
 	private SQLiteDataSource datasource;
 	private SQLSongList songList;
 	private SQLSong curSong = null;;
@@ -108,8 +110,11 @@ MediaPlayer.OnCompletionListener {
 	private PlaylistReceiver playlistReceiver;
 	private String playlistName;
 	private String startSong;
-
+	private Boolean started;
+	
 	public void onCreate(){
+		started = false;
+		
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		settings.registerOnSharedPreferenceChangeListener(settingsListener);
 
@@ -189,15 +194,46 @@ MediaPlayer.OnCompletionListener {
 	}
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "onStartCommand");
+		Log.d(TAG, "onStartCommand:" + startId);
 		if(intent != null){
 			if(intent.getAction() != null){
 				if(intent.getAction().equals(BootBroadcastReceiver.SERVICE_ACTION)){
 					if(playAtBoot){
 						play();
 					}
+				}else if(intent.getAction().equals(RemoteControlReceiver.ACTION_START) && started != true){
+					Long songId = intent.getLongExtra(WIDGET_SONG_ID, 0);
+					setSongById(songId);
+					
+					String action = intent.getStringExtra(RemoteControl.ACTION);
+					
+					if(action.equals(RemoteControl.ACTION_NEXT)){
+						next();
+					}else if(action.equals(RemoteControl.ACTION_PREV)){
+						prev();
+					}else if(action.equals(RemoteControl.ACTION_STOP)){
+						stop();
+					}else if(action.equals(RemoteControl.ACTION_PLAY)){
+						play();
+					}else if(action.equals(RemoteControl.ACTION_PAUSE)){
+						pause();
+					}else if(action.equals(RemoteControl.ACTION_PLAY_PAUSE)){
+						if(isPlaying()){
+							pause();
+						}else{
+							play();
+						}
+					}else if(action.equals(RemoteControl.ACTION_CLOSE)){
+						stopNotify();
+						stop();
+					}else if(action.equals(RemoteControl.ACTION_LOOP)){
+						loop();
+					}
 				}
 			}
+		}
+		if(!started){
+			started = true;
 		}
 		return Service.START_NOT_STICKY;
 	}
@@ -794,18 +830,30 @@ MediaPlayer.OnCompletionListener {
 
 			Intent nextIntent = new Intent(this, RemoteControlReceiver.class);
 			nextIntent.setAction(RemoteControl.ACTION_NEXT);
+			if(curSong != null){
+				nextIntent.putExtra(WIDGET_SONG_ID, curSong.getId());
+			}
 			PendingIntent pNextIntent = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			Intent pauseIntent = new Intent(this, RemoteControlReceiver.class);
 			pauseIntent.setAction(RemoteControl.ACTION_PAUSE);
+			if(curSong != null){
+				pauseIntent.putExtra(WIDGET_SONG_ID, curSong.getId());
+			}
 			PendingIntent pPauseIntent = PendingIntent.getBroadcast(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			Intent prevIntent = new Intent(this, RemoteControlReceiver.class);
 			prevIntent.setAction(RemoteControl.ACTION_PREV);
+			if(curSong != null){
+				prevIntent.putExtra(WIDGET_SONG_ID, curSong.getId());
+			}
 			PendingIntent pPrevIntent = PendingIntent.getBroadcast(this, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			Intent loopIntent = new Intent(this, RemoteControlReceiver.class);
 			loopIntent.setAction(RemoteControl.ACTION_LOOP);
+			if(curSong != null){
+				loopIntent.putExtra(WIDGET_SONG_ID, curSong.getId());
+			}
 			PendingIntent pLoopIntent = PendingIntent.getBroadcast(this, 0, loopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 			view.setOnClickPendingIntent(R.id.prev, pPrevIntent);
@@ -817,6 +865,9 @@ MediaPlayer.OnCompletionListener {
 				Log.d(TAG, "stop");
 				Intent playIntent = new Intent(this, RemoteControlReceiver.class);
 				playIntent.setAction(RemoteControl.ACTION_PLAY);
+				if(curSong != null){
+					playIntent.putExtra(WIDGET_SONG_ID, curSong.getId());
+				}
 				PendingIntent pPlayIntent = PendingIntent.getBroadcast(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 				view.setOnClickPendingIntent(R.id.play, pPlayIntent);
@@ -825,6 +876,9 @@ MediaPlayer.OnCompletionListener {
 				Log.d(TAG, "stop");
 				Intent stopIntent = new Intent(this, RemoteControlReceiver.class);
 				stopIntent.setAction(RemoteControl.ACTION_STOP);
+				if(curSong != null){
+					stopIntent.putExtra(WIDGET_SONG_ID, curSong.getId());
+				}
 				PendingIntent pStopIntent = PendingIntent.getBroadcast(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 				view.setOnClickPendingIntent(R.id.play, pStopIntent);
@@ -913,6 +967,7 @@ MediaPlayer.OnCompletionListener {
 				}
 			}else if(action.equals(ACTION_CLOSE)){
 				stopNotify();
+				stop();
 			}else if(action.equals(ACTION_LOOP)){
 				loop();
 			}
