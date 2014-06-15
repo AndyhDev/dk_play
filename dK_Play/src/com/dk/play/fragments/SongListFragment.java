@@ -74,7 +74,7 @@ public class SongListFragment extends Fragment {
 		layout = (RelativeLayout)inflater.inflate(R.layout.song_list, container, false);
 		songView = (ListView)layout.findViewById(R.id.song_list);
 		registerForContextMenu(songView);
-
+		
 		//bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff8c00")));
 		readSongList();
 		songAdt = new SongAdapter(this.getActivity(), songList);
