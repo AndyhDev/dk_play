@@ -224,8 +224,8 @@ MediaPlayer.OnCompletionListener {
 							play();
 						}
 					}else if(action.equals(RemoteControl.ACTION_CLOSE)){
-						stopNotify();
 						stop();
+						stopNotify();
 					}else if(action.equals(RemoteControl.ACTION_LOOP)){
 						loop();
 					}
@@ -966,8 +966,8 @@ MediaPlayer.OnCompletionListener {
 					play();
 				}
 			}else if(action.equals(ACTION_CLOSE)){
-				stopNotify();
 				stop();
+				stopNotify();
 			}else if(action.equals(ACTION_LOOP)){
 				loop();
 			}
