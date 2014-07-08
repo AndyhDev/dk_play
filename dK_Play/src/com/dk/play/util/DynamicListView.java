@@ -30,6 +30,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -102,6 +103,8 @@ public class DynamicListView extends ListView {
     private DragListener dragListener;
     private int startPos;
     
+    private Handler motionHandler = new Handler();;
+    
     public DynamicListView(Context context) {
         super(context);
         init(context);
@@ -151,6 +154,7 @@ public class DynamicListView extends ListView {
                     if(dragListener != null){
                     	dragListener.onStart(position);
                     }
+                    motionHandler.post(move);
                     return true;
                 }
             };
@@ -262,7 +266,18 @@ public class DynamicListView extends ListView {
             mHoverCell.draw(canvas);
         }
     }
-
+    
+    private Runnable move = new Runnable() {
+		@Override
+		public void run() {
+			if (mActivePointerId == INVALID_POINTER_ID) {
+	            return;
+	        }
+			mIsMobileScrolling = false;
+            handleMobileCellScroll();
+	        motionHandler.postDelayed(move, 20);
+		}
+    };
     @Override
     public boolean onTouchEvent (MotionEvent event) {
 
@@ -273,28 +288,26 @@ public class DynamicListView extends ListView {
                 mActivePointerId = event.getPointerId(0);
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (mActivePointerId == INVALID_POINTER_ID) {
-                    break;
-                }
+            	if (mActivePointerId == INVALID_POINTER_ID) {
+    	            return false;
+    	        }
+    	        int pointerIndex = event.findPointerIndex(mActivePointerId);
 
-                int pointerIndex = event.findPointerIndex(mActivePointerId);
+    	        mLastEventY = (int) event.getY(pointerIndex);
+    	        int deltaY = mLastEventY - mDownY;
 
-                mLastEventY = (int) event.getY(pointerIndex);
-                int deltaY = mLastEventY - mDownY;
+    	        if (mCellIsMobile) {
+    	            mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left,
+    	                    mHoverCellOriginalBounds.top + deltaY + mTotalOffset);
+    	            mHoverCell.setBounds(mHoverCellCurrentBounds);
+    	            invalidate();
 
-                if (mCellIsMobile) {
-                    mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left,
-                            mHoverCellOriginalBounds.top + deltaY + mTotalOffset);
-                    mHoverCell.setBounds(mHoverCellCurrentBounds);
-                    invalidate();
+    	            handleCellSwitch();
 
-                    handleCellSwitch();
-
-                    mIsMobileScrolling = false;
-                    handleMobileCellScroll();
-
-                    return false;
-                }
+    	            mIsMobileScrolling = false;
+    	            handleMobileCellScroll();
+    	            return false;
+    	        }
                 break;
             case MotionEvent.ACTION_UP:
                 touchEventsEnded();
@@ -307,6 +320,7 @@ public class DynamicListView extends ListView {
                  * the movement of the hover cell has ended, then the dragging event
                  * ends and the hover cell is animated to its corresponding position
                  * in the listview. */
+            	
                 pointerIndex = (event.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >>
                         MotionEvent.ACTION_POINTER_INDEX_SHIFT;
                 final int pointerId = event.getPointerId(pointerIndex);
