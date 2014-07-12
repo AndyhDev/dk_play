@@ -24,6 +24,7 @@ import com.dk.play.database.SQLSong;
 import com.dk.play.database.SQLSongList;
 import com.dk.play.fragments.CurPlaylistFragment;
 import com.dk.play.fragments.PlayerControlFragment;
+import com.dk.play.service.PlayService;
 import com.dk.play.util.NavDrawerFunc;
 import com.dk.play.util.SaveCurrentPlaylistDlg;
 import com.dk.play.util.SearchAdapter;
@@ -128,6 +129,10 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 		if(item.getItemId() == R.id.save){
 			SaveCurrentPlaylistDlg dlg = new SaveCurrentPlaylistDlg(this, frag1.getPlaylist().toPlaylist());
 			dlg.show();
+		}else if(item.getItemId() == R.id.toggle_overlay_player){
+			Intent service = new Intent(this, PlayService.class);
+			service.setAction(PlayService.ACTION_SHOW_OVERLAY_PLAYER);
+			startService(service);
 		}
 		return super.onOptionsItemSelected(item);
 	}

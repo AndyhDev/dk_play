@@ -7,9 +7,16 @@
         android:orderInCategory="1"
         android:showAsAction="collapseActionView|ifRoom"
         android:title="@string/action_search_actionbar"/>
-    <item 
-        android:id="@+id/save" 
-        android:orderInCategory="2" 
-        android:icon="@drawable/ic_action_save" android:showAsAction="ifRoom" android:title="@string/save_current_playlist"></item>
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/ic_action_save"
+        android:orderInCategory="2"
+        android:showAsAction="ifRoom"
+        android:title="@string/save_current_playlist"/>
+    <item
+        android:id="@+id/toggle_overlay_player"
+        android:icon="@drawable/ic_action_dock"
+        android:showAsAction="ifRoom"
+        android:title="@string/toggle_overlay_player"/>
 
 </menu>

@@ -42,6 +42,7 @@ import com.dk.play.database.SQLSong;
 import com.dk.play.database.SQLSongList;
 import com.dk.play.database.SQLiteDataSource;
 import com.dk.play.util.Image;
+import com.dk.play.util.OverlayPlayer;
 import com.dk.play.util.Paths;
 import com.dk.play.widget.WidgetBig2Receiver;
 import com.dk.play.widget.WidgetBigReceiver;
@@ -89,8 +90,11 @@ MediaPlayer.OnCompletionListener {
 	public static final String PLAYLIST_ID = "com.dk.play.service.PLAYLIST_ID";
 	public static final String PLAYLIST_CREATED = "com.dk.play.service.PLAYLIST_CREATED";
 	public static final String PLAYLIST_DELETED = "com.dk.play.service.PLAYLIST_DELETED";
-	
+
 	public static final String WIDGET_SONG_ID = "SONG_ID";
+	
+	public static final String ACTION_SHOW_OVERLAY_PLAYER = "ACTION_SHOW_OVERLAY_PLAYER";
+	public static final String ACTION_HIDE_OVERLAY_PLAYER = "ACTION_HIDE_OVERLAY_PLAYER";
 	
 	private SQLiteDataSource datasource;
 	private SQLSongList songList;
@@ -111,10 +115,11 @@ MediaPlayer.OnCompletionListener {
 	private String playlistName;
 	private String startSong;
 	private Boolean started;
-	
+	private OverlayPlayer overlayPlayer;
+
 	public void onCreate(){
 		started = false;
-		
+
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		settings.registerOnSharedPreferenceChangeListener(settingsListener);
 
@@ -204,9 +209,9 @@ MediaPlayer.OnCompletionListener {
 				}else if(intent.getAction().equals(RemoteControlReceiver.ACTION_START) && started != true){
 					Long songId = intent.getLongExtra(WIDGET_SONG_ID, 0);
 					setSongById(songId);
-					
+
 					String action = intent.getStringExtra(RemoteControl.ACTION);
-					
+
 					if(action.equals(RemoteControl.ACTION_NEXT)){
 						next();
 					}else if(action.equals(RemoteControl.ACTION_PREV)){
@@ -229,6 +234,10 @@ MediaPlayer.OnCompletionListener {
 					}else if(action.equals(RemoteControl.ACTION_LOOP)){
 						loop();
 					}
+				}else if(intent.getAction().equals(ACTION_SHOW_OVERLAY_PLAYER)){
+					showOverlayPlayer();
+				}else if(intent.getAction().equals(ACTION_HIDE_OVERLAY_PLAYER)){
+					hideOverlayPlayer();
 				}
 			}
 		}
@@ -237,7 +246,7 @@ MediaPlayer.OnCompletionListener {
 		}
 		return Service.START_NOT_STICKY;
 	}
-
+	
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return binder;
@@ -345,6 +354,9 @@ MediaPlayer.OnCompletionListener {
 			}
 		}
 		updateWidgets();
+		if(overlayPlayer != null){
+			overlayPlayer.setSong(curSong);
+		}
 	}
 	public void processClick(SQLSong song){
 		song.click();
@@ -404,6 +416,9 @@ MediaPlayer.OnCompletionListener {
 			Intent newLoop = new Intent(NEW_PLAY_STATE);
 			newLoop.putExtra(PLAY_STATE, PLAY_STATE_PLAY);
 			sendBroadcast(newLoop);
+			if(overlayPlayer != null){
+				overlayPlayer.setState(playState);
+			}
 		}else{
 			player.reset();
 			try {
@@ -460,6 +475,9 @@ MediaPlayer.OnCompletionListener {
 			Intent newLoop = new Intent(NEW_PLAY_STATE);
 			newLoop.putExtra(PLAY_STATE, PLAY_STATE_PAUSE);
 			sendBroadcast(newLoop);
+			if(overlayPlayer != null){
+				overlayPlayer.setState(playState);
+			}
 		}
 
 	}
@@ -493,6 +511,9 @@ MediaPlayer.OnCompletionListener {
 		newLoop.putExtra(LOOP_STATE, loopState);
 		sendBroadcast(newLoop);
 		updateWidgets();
+		if(overlayPlayer != null){
+			overlayPlayer.setLoopState(loopState);
+		}
 	}
 	public int getPlayState(){
 		return playState;
@@ -593,6 +614,9 @@ MediaPlayer.OnCompletionListener {
 		Intent newLoop = new Intent(NEW_PLAY_STATE);
 		newLoop.putExtra(PLAY_STATE, PLAY_STATE_STOP);
 		sendBroadcast(newLoop);
+		if(overlayPlayer != null){
+			overlayPlayer.setState(playState);
+		}
 		//Toast.makeText(this, "cool", Toast.LENGTH_LONG).show();
 		return false;
 	}
@@ -610,6 +634,9 @@ MediaPlayer.OnCompletionListener {
 		Intent newLoop = new Intent(NEW_PLAY_STATE);
 		newLoop.putExtra(PLAY_STATE, PLAY_STATE_PLAY);
 		sendBroadcast(newLoop);
+		if(overlayPlayer != null){
+			overlayPlayer.setState(playState);
+		}
 	}
 
 	private void sendCurSong(){
@@ -641,6 +668,7 @@ MediaPlayer.OnCompletionListener {
 		}
 	}
 	private void startNotify(){
+
 		int curApi = android.os.Build.VERSION.SDK_INT;
 		if(curApi >= android.os.Build.VERSION_CODES.JELLY_BEAN){
 			startNotifyApi16();
@@ -776,8 +804,18 @@ MediaPlayer.OnCompletionListener {
 
 		startForeground(notifyId, n);
 	}
-
+	public void showOverlayPlayer(){
+		overlayPlayer = new OverlayPlayer(this, this);
+		overlayPlayer.show();
+	}
+	public void hideOverlayPlayer(){
+		if(overlayPlayer != null){
+			overlayPlayer.hide();
+			overlayPlayer = null;
+		};
+	}
 	private void stopNotify(){
+		hideOverlayPlayer();
 		stopForeground(true);
 	}
 	private void updateMetadata(){
