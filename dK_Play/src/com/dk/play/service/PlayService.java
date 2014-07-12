@@ -706,7 +706,7 @@ MediaPlayer.OnCompletionListener {
 		String coverName = curSong.getCover();
 		File cover = Paths.getCoverFile(coverName);
 		if(cover.exists()){
-			icon = Image.decodeSampledBitmapFromPath(cover.getAbsolutePath(), 200, 200);
+			icon = Image.decodeSquareBitmapFromPath(cover.getAbsolutePath(), 200);
 		}else{
 			icon = Image.decodeSampledBitmapFromResource(getResources(), R.drawable.default_cover, 200, 200);
 		}

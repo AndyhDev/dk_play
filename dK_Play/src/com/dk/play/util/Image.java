@@ -56,4 +56,32 @@ public class Image {
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFile(path, options);
 	}
+	public static Bitmap decodeSquareBitmapFromPath(String path, int size) {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, options);
+
+		options.inSampleSize = calculateInSampleSize(options, size, size);
+
+		options.inJustDecodeBounds = false;
+		Bitmap bmp = BitmapFactory.decodeFile(path, options);
+		
+		int size2;
+		if(bmp.getWidth() > bmp.getHeight()){
+			size2 = bmp.getHeight();
+		}else if(bmp.getWidth() < bmp.getHeight()){
+			size2 = bmp.getWidth();
+		}else{
+			return bmp;
+		}
+		if(bmp.getWidth() > size2){
+			int x = (bmp.getWidth() - size2) / 2;
+			bmp = Bitmap.createBitmap(bmp, x, 0, size2, size2);
+		}
+		if(bmp.getHeight() > size2){
+			int y = (bmp.getHeight() - size) / 2;
+			bmp = Bitmap.createBitmap(bmp, 0, y, size2, size2);
+		}
+		return bmp;
+	}
 }
