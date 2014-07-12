@@ -25,6 +25,7 @@ import com.dk.play.database.SQLSongList;
 import com.dk.play.fragments.CurPlaylistFragment;
 import com.dk.play.fragments.PlayerControlFragment;
 import com.dk.play.util.NavDrawerFunc;
+import com.dk.play.util.SaveCurrentPlaylistDlg;
 import com.dk.play.util.SearchAdapter;
 
 public class CurPlaylist extends Activity implements OnQueryTextListener, OnSuggestionListener {
@@ -123,6 +124,10 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(navDrawerFunc.processClick(item)){
 			return true;
+		}
+		if(item.getItemId() == R.id.save){
+			SaveCurrentPlaylistDlg dlg = new SaveCurrentPlaylistDlg(this, frag1.getPlaylist().toPlaylist());
+			dlg.show();
 		}
 		return super.onOptionsItemSelected(item);
 	}

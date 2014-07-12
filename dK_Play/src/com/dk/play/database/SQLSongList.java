@@ -3,6 +3,8 @@ package com.dk.play.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+
 import android.annotation.SuppressLint;
 import android.util.Log;
 
@@ -164,5 +166,14 @@ public class SQLSongList {
 			}
 		}
 		return matches;
+	}
+	public SQLPlaylist toPlaylist(){
+		SQLPlaylist list = new SQLPlaylist();
+		JSONArray ids = new JSONArray();
+		for(int i = 0; i < songs.size(); i++){
+			ids.put(songs.get(i).getId());
+		}
+		list.setItems(ids);
+		return list;
 	}
 }

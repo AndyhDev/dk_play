@@ -7,5 +7,9 @@
         android:orderInCategory="1"
         android:showAsAction="collapseActionView|ifRoom"
         android:title="@string/action_search_actionbar"/>
+    <item 
+        android:id="@+id/save" 
+        android:orderInCategory="2" 
+        android:icon="@drawable/ic_action_save" android:showAsAction="ifRoom" android:title="@string/save_current_playlist"></item>
 
 </menu>
