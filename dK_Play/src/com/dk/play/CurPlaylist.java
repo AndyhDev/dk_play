@@ -3,6 +3,7 @@ package com.dk.play;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -57,6 +58,9 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 				//transaction2.addToBackStack(null);
 				transaction2.commit();
 			}
+		}else{
+			FragmentManager fragmentManager = getFragmentManager();
+			frag2 = (PlayerControlFragment) fragmentManager.findFragmentById(R.id.fragment2);
 		}
 		String[] columnNames = {"_id", "title", "artist", "cover"};
 		MatrixCursor cursor = new MatrixCursor(columnNames);
@@ -125,10 +129,10 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK){
-			if(frag2.trySetOpenState(false)){
-				return true;
-			}else{
-				return super.onKeyDown(keyCode, event);
+			if(frag2 != null){
+				if(frag2.trySetOpenState(false)){
+					return true;
+				}
 			}
 		}       
 		return super.onKeyDown(keyCode, event);

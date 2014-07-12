@@ -1,6 +1,7 @@
 package com.dk.play;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -28,6 +29,9 @@ public class AutoPlaylistActivity extends Activity {
 		if (savedInstanceState == null) {
 			frag2 = new PlayerControlFragment();
 			getFragmentManager().beginTransaction().add(R.id.container2, frag2).commit();
+		}else{
+			FragmentManager fragmentManager = getFragmentManager();
+			frag2 = (PlayerControlFragment) fragmentManager.findFragmentById(R.id.container2);
 		}
 	}
 	@Override
@@ -44,10 +48,10 @@ public class AutoPlaylistActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK){
-			if(frag2.trySetOpenState(false)){
-				return true;
-			}else{
-				return super.onKeyDown(keyCode, event);
+			if(frag2 != null){
+				if(frag2.trySetOpenState(false)){
+					return true;
+				}
 			}
 		}       
 		return super.onKeyDown(keyCode, event);

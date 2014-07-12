@@ -3,6 +3,7 @@ package com.dk.play;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
@@ -57,6 +58,9 @@ public class DkPlay extends Activity{
 				//transaction2.addToBackStack(null);
 				transaction2.commit();
 			}
+		}else{
+			FragmentManager fragmentManager = getFragmentManager();
+			frag2 = (PlayerControlFragment) fragmentManager.findFragmentById(R.id.fragment2);
 		}
 		/*drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerToggle = new ActionBarDrawerToggle(this, drawer, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
@@ -100,10 +104,12 @@ public class DkPlay extends Activity{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK){
-			if(frag2.trySetOpenState(false)){
-				return true;
+			if(frag2 != null){
+				if(frag2.trySetOpenState(false)){
+					return true;
+				}
 			}else{
-				return super.onKeyDown(keyCode, event);
+				Log.d(TAG, "frag2 == null");
 			}
 		}       
 		return super.onKeyDown(keyCode, event);
