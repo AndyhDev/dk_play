@@ -35,6 +35,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.dk.play.DkPlay;
 import com.dk.play.R;
@@ -95,6 +96,7 @@ MediaPlayer.OnCompletionListener {
 	
 	public static final String ACTION_SHOW_OVERLAY_PLAYER = "ACTION_SHOW_OVERLAY_PLAYER";
 	public static final String ACTION_HIDE_OVERLAY_PLAYER = "ACTION_HIDE_OVERLAY_PLAYER";
+	public static final String ACTION_TOGGLE_OVERLAY_PLAYER = "ACTION_TOGGLE_OVERLAY_PLAYER";
 	
 	private SQLiteDataSource datasource;
 	private SQLSongList songList;
@@ -235,9 +237,29 @@ MediaPlayer.OnCompletionListener {
 						loop();
 					}
 				}else if(intent.getAction().equals(ACTION_SHOW_OVERLAY_PLAYER)){
-					showOverlayPlayer();
+					if(isPlaying() || pause){
+						showOverlayPlayer();
+					}
 				}else if(intent.getAction().equals(ACTION_HIDE_OVERLAY_PLAYER)){
 					hideOverlayPlayer();
+				}else if(intent.getAction().equals(ACTION_TOGGLE_OVERLAY_PLAYER)){
+					if(overlayPlayer != null){
+						if(overlayPlayer.isShowing()){
+							hideOverlayPlayer();
+						}else{
+							if(isPlaying() || pause){
+								showOverlayPlayer();
+							}else{
+								Toast.makeText(this, R.string.overlay_dont_play, Toast.LENGTH_LONG).show();
+							}
+						}
+					}else{
+						if(isPlaying() || pause){
+							showOverlayPlayer();
+						}else{
+							Toast.makeText(this, R.string.overlay_dont_play, Toast.LENGTH_LONG).show();
+						}
+					}
 				}
 			}
 		}

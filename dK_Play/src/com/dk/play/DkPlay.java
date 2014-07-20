@@ -25,7 +25,6 @@ import com.dk.play.database.SQLiteDataSource;
 import com.dk.play.fragments.PlayerControlFragment;
 import com.dk.play.fragments.SongListFragment;
 import com.dk.play.service.PlayService;
-import com.dk.play.service.PlayService.RemoteControl;
 import com.dk.play.util.NavDrawerFunc;
 import com.dk.play.util.YesNoDlg;
 import com.dk.play.util.YesNoDlgListener;
@@ -194,7 +193,7 @@ public class DkPlay extends Activity{
 			return true;
 		case R.id.toggle_overlay_player:
 			Intent service = new Intent(this, PlayService.class);
-			service.setAction(PlayService.ACTION_SHOW_OVERLAY_PLAYER);
+			service.setAction(PlayService.ACTION_TOGGLE_OVERLAY_PLAYER);
 			startService(service);
 			return true;
 		default:

@@ -131,7 +131,7 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 			dlg.show();
 		}else if(item.getItemId() == R.id.toggle_overlay_player){
 			Intent service = new Intent(this, PlayService.class);
-			service.setAction(PlayService.ACTION_SHOW_OVERLAY_PLAYER);
+			service.setAction(PlayService.ACTION_TOGGLE_OVERLAY_PLAYER);
 			startService(service);
 		}
 		return super.onOptionsItemSelected(item);

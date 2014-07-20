@@ -106,16 +106,6 @@
 	<string name="share_body2">Ich höre gerade "%1$s"</string>
 	<string name="save_current_playlist">diese Playliste speichern</string>
 	<string name="overlay_player">Overlay Player</string>
-	<string-array name="overlay_player_show_opts_values">
-		<item >0</item>
-		<item >1</item>
-		<item >2</item>
-	</string-array>
-	<string-array name="overlay_player_show_opts_names">
-		<item >wenn die App in den Hintergrund geht</item>
-		<item >nur Manuell</item>
-		<item >nie</item>
-	</string-array>
-	<string name="overlay_player_show_opts_default">1</string>
 	<string name="toggle_overlay_player">Overlay Player Ein/Aus-schalten</string>
+	<string name="overlay_dont_play">es wird nichts abgespielt</string>
 </resources>

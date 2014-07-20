@@ -21,8 +21,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		final ListPreference loopModus = (ListPreference) findPreference("loop_modus");
 		final ListPreference startSong = (ListPreference) findPreference("start_song");
-		final ListPreference overlayPlayer = (ListPreference) findPreference("overlay_player");
-		
+
 		datasource = new SQLiteDataSource(this);
 		datasource.open();
 		songList = datasource.getSQLSongList();
@@ -60,19 +59,6 @@ public class SettingsActivity extends PreferenceActivity {
 				loopModus.setValue(newValue.toString());
 				// Get the entry which corresponds to the current value and set as summary
 				preference.setSummary(loopModus.getEntry().toString());
-				return false;
-			}
-		});
-		
-		overlayPlayer.setSummary(overlayPlayer.getEntry().toString());
-		overlayPlayer.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				// Set the value as the new value
-				overlayPlayer.setValue(newValue.toString());
-				// Get the entry which corresponds to the current value and set as summary
-				preference.setSummary(overlayPlayer.getEntry().toString());
 				return false;
 			}
 		});
