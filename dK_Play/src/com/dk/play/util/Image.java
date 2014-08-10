@@ -79,7 +79,7 @@ public class Image {
 			bmp = Bitmap.createBitmap(bmp, x, 0, size2, size2);
 		}
 		if(bmp.getHeight() > size2){
-			int y = (bmp.getHeight() - size) / 2;
+			int y = (bmp.getHeight() - size2) / 2;
 			bmp = Bitmap.createBitmap(bmp, 0, y, size2, size2);
 		}
 		return bmp;

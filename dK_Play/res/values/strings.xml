@@ -79,7 +79,7 @@
     <string name="founded">Gefunden:</string>
     <string name="title_activity_info">Info</string>
     <string name="impressum">Angaben gemäß § 5 TMG:\nAndreas Hofmann\nGartenstraße 13\n88422 Bad Buchau\n\n<b>Kontakt:</b>\nE-Mail: Andreas.Hofmann@linux.com</string>
-    <string name="versions_code">2.0</string>
+    <string name="versions_code">1.5</string>
 	<string name="version">Version:</string>
 	<string name="medium_not_in_list">Dieses Medium ist nicht in der Wiedergabeliste,\nsoll es hinzugefügt werden?</string>
 	<string name="no_playlist">noch keine Playlisten vorhanden, bitte anlegen!</string>

@@ -3,7 +3,7 @@
     package="com.dk.play"
     android:installLocation="internalOnly"
     android:versionCode="6"
-    android:versionName="2.1" >
+    android:versionName="1.5" >
 
     <uses-sdk
         android:minSdkVersion="14"
