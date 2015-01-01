@@ -31,7 +31,7 @@
         <item name="android:background">@color/orange</item>
         <item name="android:backgroundSplit">@color/orange</item>
     </style>
-
+  
     <style name="PopupMenu" parent="@android:style/Widget.Holo.ListPopupWindow">
         <item name="android:popupBackground">@color/white2</item>
     </style>

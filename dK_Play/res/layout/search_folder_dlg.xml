@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/ORANGE"
+        android:padding="7dp" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/contentDescription"
+            android:maxHeight="32dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/imageView1"
+            android:text="@string/search_folder_title"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/normal"
+        style="@style/CheckBoxOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginTop="15dp"
+        android:checked="false"
+        android:text="@string/search_folder_normal"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/all"
+        style="@style/CheckBoxOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/normal"
+        android:layout_marginTop="15dp"
+        android:checked="false"
+        android:text="@string/search_folder_all"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/custom"
+        style="@style/CheckBoxOrange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/all"
+        android:layout_marginTop="15dp"
+        android:checked="false"
+        android:text="@string/search_folder_custom"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/ok"
+        style="@style/ButtonRedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/custom"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:minWidth="120dip"
+        android:text="@string/ok" />
+        
+</RelativeLayout>

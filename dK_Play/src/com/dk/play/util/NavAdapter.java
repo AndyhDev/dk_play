@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dk.play.R;
+import com.dk.play.adv.AdvControl;
 import com.dk.play.database.SQLiteDataSource;
 
 public class NavAdapter extends BaseAdapter {
@@ -37,14 +38,17 @@ public class NavAdapter extends BaseAdapter {
 	public static final int ID_SPACER = 5;
 	public static final int ID_ADD_PLAYLIST = 6;
 	public static final int ID_PLAYLIST_TITLE = 7;
+	public static final int ID_ADV = 8;
 	
 	public static final int ID_USER_PLAYLIST = 10;
 	
 	@SuppressWarnings("unused")
 	private static final String TAG = "NavAdapter";
+	private AdvControl adv;
 	
 	public NavAdapter(Context c){
 		context = c;
+		adv = new AdvControl(context);
 		layout = LayoutInflater.from(c);
 		read();
 	}
@@ -54,6 +58,11 @@ public class NavAdapter extends BaseAdapter {
 		items.add(new NavItem(ID_PLAYLIST, "Playlist", R.drawable.show_playlist, true));
 		items.add(new NavItem(ID_AUTO_PLAYLISTS, "Auto Playlisten", R.drawable.playlist, true));
 		items.add(new NavItem(ID_SETTINGS, "Einstellungen", R.drawable.settings, true));
+		
+		if(adv.getActive()){
+			items.add(new NavItem(ID_ADV, "Cloud Songs", R.drawable.ic_action_cloud, true));
+		}
+		
 		items.add(new NavItem(ID_INFO, "Info", R.drawable.info, true));
 		items.add(new NavItem(ID_SPACER, "", R.drawable.info, false, R.layout.nav_spacer));
 		items.add(new NavItem(ID_PLAYLIST_TITLE, "Playlisten:", R.drawable.info, false, R.layout.nav_center_text));

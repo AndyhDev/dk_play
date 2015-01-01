@@ -15,6 +15,10 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
             Intent serviceIntent = new Intent(context, PlayService.class);    
             serviceIntent.setAction(SERVICE_ACTION);
             context.startService(serviceIntent);   
+            
+            Intent advIntent = new Intent(context, AdvService.class);    
+            serviceIntent.setAction(SERVICE_ACTION);
+            context.startService(advIntent);  
         }   
     }    
 } 

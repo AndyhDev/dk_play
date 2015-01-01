@@ -116,7 +116,7 @@ public class OverlayPlayer implements OnClickListener {
 	}
 	public void setSong(SQLSong song){
 		curSong = song;
-		String path = Paths.getCoverPath(curSong.getCover());
+		String path = curSong.getCoverUri().getPath();
 		File cover = new File(path);
 		if(cover.exists()){
 			Bitmap bmp = BitmapFactory.decodeFile(path);
@@ -131,7 +131,7 @@ public class OverlayPlayer implements OnClickListener {
 	}
 	private void setupUi(){
 		if(curSong != null){
-			String path = Paths.getCoverPath(curSong.getCover());
+			String path = curSong.getCoverUri().getPath();
 			File cover = new File(path);
 			if(cover.exists()){
 				Bitmap bmp = BitmapFactory.decodeFile(path);

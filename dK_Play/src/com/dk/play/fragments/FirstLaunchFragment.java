@@ -18,6 +18,9 @@ import com.dk.play.R;
 import com.dk.play.database.SQLSong;
 import com.dk.play.util.SearchListener;
 import com.dk.play.util.SearchPlayable;
+import com.dk.play.util.SelectSearchFoldersDlg;
+import com.dk.ui.widgets.SelectedFolderList;
+import com.dk.ui.widgets.onOkListener;
 
 public class FirstLaunchFragment extends Fragment implements OnClickListener {
 	private SearchPlayable search;
@@ -28,14 +31,9 @@ public class FirstLaunchFragment extends Fragment implements OnClickListener {
 	private TextView foundText;
 	private Button nextBnt;
 	private int foundCount = 0;
-	
+	private SelectSearchFoldersDlg dlg;
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		
-		search = new SearchPlayable(this.getActivity());
-		search.setSearchListener(listener);
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		context = this.getActivity();
 		layout = (RelativeLayout)inflater.inflate(R.layout.first_launch_fragment, container, false);
 		foundText = (TextView) layout.findViewById(R.id.found);
@@ -45,11 +43,24 @@ public class FirstLaunchFragment extends Fragment implements OnClickListener {
 		spinner = (ProgressBar)layout.findViewById(R.id.progressBar1);
 		spinner.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.dark_red), android.graphics.PorterDuff.Mode.SRC_IN);
 		
+
+		dlg = new SelectSearchFoldersDlg(getActivity());
+		dlg.setListener(new onOkListener() {
+			@Override
+			public void onOk(SelectedFolderList list) {
+				startSearch();
+			}
+		});
+		dlg.show();
+
+		return layout;
+	}
+	private void startSearch(){
+		search = new SearchPlayable(this.getActivity());
+		search.setSearchListener(listener);
 		actFoundCount();
 		
 		search.search();
-		
-		return layout;
 	}
 	private void actFoundCount(){
 		foundText.setText(getResources().getString(R.string.found_first_launch, foundCount));
@@ -83,4 +94,12 @@ public class FirstLaunchFragment extends Fragment implements OnClickListener {
 			this.getActivity().finish();
 		}
 	}
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == SelectSearchFoldersDlg.requestCode){
+			dlg.processResult(data);
+		}
+	}
+	
 }

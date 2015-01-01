@@ -1,14 +1,14 @@
 package com.dk.play;
 
-import android.app.Activity;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dk.play.fragments.FirstLaunchFragment;
+import com.dk.play.util.LActivity;
 
-public class FirstLaunchActivity extends Activity {
+public class FirstLaunchActivity extends LActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class FirstLaunchActivity extends Activity {
 		Editor settings = getSharedPreferences("other", MODE_PRIVATE).edit();
 		settings.putBoolean("isFirstLaunch", false);
 		settings.commit();
+
 	}
 
 	@Override

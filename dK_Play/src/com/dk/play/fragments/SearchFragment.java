@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.dk.play.R;
 import com.dk.play.database.SQLSong;
@@ -30,19 +31,26 @@ public class SearchFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-		search = new SearchPlayable(this.getActivity());
-		search.setSearchListener(listener);
-		
 		spinner = (ProgressBar)rootView.findViewById(R.id.progressBar1);
 		spinner.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.dark_red), android.graphics.PorterDuff.Mode.SRC_IN);
-		spinner.setIndeterminate(true);
 		
 		playlist = new SQLSongList();
 		songView = (ListView)rootView.findViewById(R.id.listView1);
 		songAdt = new SongAdapter(this.getActivity(), playlist);
 		songView.setAdapter(songAdt);
-		search.search();
+		
+		start();
 		return rootView;
+	}
+	public void start(){
+		playlist = new SQLSongList();
+		songAdt.setSongList(playlist);
+		songAdt.notifyDataSetChanged();
+		
+		search = new SearchPlayable(this.getActivity());
+		search.setSearchListener(listener);
+		search.search();
+		spinner.setIndeterminate(true);
 	}
 	private SearchListener listener = new SearchListener() {
 
@@ -66,15 +74,21 @@ public class SearchFragment extends Fragment {
 			Runnable runnable = new Runnable() {
 				@Override
 				public void run() {
-					finish();
+					spinner.setIndeterminate(false);
+					try {
+						Toast.makeText(getActivity(), R.string.search_end, Toast.LENGTH_LONG).show();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 				}
 			};
 			handler.postDelayed(runnable, 4000);
 
 		}
 	};
-	private void finish(){
+	/*private void finish(){
 		spinner.setIndeterminate(false);
 		this.getActivity().finish();
-	}
+	}*/
 }

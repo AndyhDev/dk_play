@@ -31,7 +31,10 @@ public class SQLSong {
 	private long time;
 	private int type;
 	private int click;
-
+	
+	private boolean dontSQL = false;
+	private boolean coverUsePath = false;
+	
 	public static final int TYPE_MUSIC = 0;
 	public static final int TYPE_VIDEO = 1;
 
@@ -81,6 +84,9 @@ public class SQLSong {
 		this.click = click;
 	}
 	public long SQLInsert(SQLiteDatabase database){
+		if(dontSQL){
+			return 0;
+		}
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.COLUMN_TITLE, title);
 		values.put(SQLiteHelper.COLUMN_ARTIST, artist);
@@ -94,13 +100,35 @@ public class SQLSong {
 		values.put(SQLiteHelper.COLUMN_TYPE, type);
 		values.put(SQLiteHelper.COLUMN_CLICK, click);
 		long insertId = database.insert(SQLiteHelper.TABLE_SONGS, null, values);
-		
+		this.id = insertId;
 		return insertId;
 	}
 	public void SQLDelete(SQLiteDatabase database){
+		if(dontSQL){
+			return;
+		}
 		database.delete(SQLiteHelper.TABLE_SONGS, SQLiteHelper.COLUMN_ID + " = " + id, null);
 	}
 	public void SQLUpdate(SQLiteDatabase database){
+		if(dontSQL){
+			return;
+		}
+		setTime(System.currentTimeMillis()/1000);
+		ContentValues values = new ContentValues();
+		values.put(SQLiteHelper.COLUMN_TITLE, title);
+		values.put(SQLiteHelper.COLUMN_ARTIST, artist);
+		values.put(SQLiteHelper.COLUMN_ALBUM, album);
+		values.put(SQLiteHelper.COLUMN_GENRE, genre);
+		values.put(SQLiteHelper.COLUMN_COVER, cover);
+		values.put(SQLiteHelper.COLUMN_RATING, rating);
+		values.put(SQLiteHelper.COLUMN_PLAY_COUNT, play_count);
+		values.put(SQLiteHelper.COLUMN_PATH, path);
+		values.put(SQLiteHelper.COLUMN_TIME, time);
+		values.put(SQLiteHelper.COLUMN_TYPE, type);
+		values.put(SQLiteHelper.COLUMN_CLICK, click);
+		database.update(SQLiteHelper.TABLE_SONGS, values, SQLiteHelper.COLUMN_ID + "=" + id, null);
+	}
+	public void SQLUpdateWithoutTime(SQLiteDatabase database){
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.COLUMN_TITLE, title);
 		values.put(SQLiteHelper.COLUMN_ARTIST, artist);
@@ -148,12 +176,24 @@ public class SQLSong {
 	public String getCover() {
 		return cover;
 	}
+	public boolean hasCover(){
+		if(cover == "no"){
+			return false;
+		}
+		return true;
+	}
 	public Uri getCoverUri(){
 		if(cover == "no"){
-			return null;
+			return Uri.parse("android.resource://your.package.name/" + R.drawable.default_cover);
 		}
-		Uri uri = Uri.parse("file://" + Paths.getCoverPath(cover));
-		return uri;
+		if(coverUsePath){
+			Uri uri = Uri.parse("file://" + cover);
+			return uri;
+
+		}else{
+			Uri uri = Uri.parse("file://" + Paths.getCoverPath(cover));
+			return uri;
+		}
 	}
 	public void setCover(String cover) {
 		this.cover = cover;
@@ -162,7 +202,12 @@ public class SQLSong {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		byte[] data = stream.toByteArray();
-		File file = new File(Paths.getCoverPath(cover));
+		File file;
+		if(coverUsePath){
+			file = new File(cover);
+		}else{
+			file = new File(Paths.getCoverPath(cover));
+		}
 
 		try {
 			file.createNewFile();
@@ -177,7 +222,12 @@ public class SQLSong {
 		if(cover == "no"){
 			return Image.decodeSampledBitmapFromResource(App.getResourcesStatic(), R.drawable.default_cover, size, size);
 		}
-		String path = Paths.getCoverPath(cover);
+		String path;
+		if(coverUsePath){
+			path = cover;
+		}else{
+			path = Paths.getCoverPath(cover);
+		}
 		File f = new File(path);
 		if(!f.exists()){
 			return Image.decodeSampledBitmapFromResource(App.getResourcesStatic(), R.drawable.default_cover, size, size);
@@ -225,5 +275,17 @@ public class SQLSong {
 	}
 	public void click(){
 		click++;
+	}
+	public boolean getDontSQL() {
+		return dontSQL;
+	}
+	public void setDontSQL(boolean dontSQL) {
+		this.dontSQL = dontSQL;
+	}
+	public boolean getCoverUsePath() {
+		return coverUsePath;
+	}
+	public void setCoverUsePath(boolean coverUsePath) {
+		this.coverUsePath = coverUsePath;
 	}
 }

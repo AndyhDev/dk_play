@@ -8,7 +8,8 @@
     <string name="action_re_create">Datenback neu anlegen</string>
     <string name="play_at_boot">Wiedergabe nach dem Booten starten</string>
     <string name="loop_modus">Start Loopmodus</string>
-
+	<string name="re_gen_cover">Cover überprüfen</string>
+	<string name="re_gen_cover_title">Cover werden überprüfen</string>
     <string-array name="loop_modus_values">
         <item>0</item>
         <item>1</item>
@@ -78,34 +79,131 @@
     <string name="contentDescription">no</string>
     <string name="founded">Gefunden:</string>
     <string name="title_activity_info">Info</string>
-    <string name="impressum">Angaben gemäß § 5 TMG:\nAndreas Hofmann\nGartenstraße 13\n88422 Bad Buchau\n\n<b>Kontakt:</b>\nE-Mail: Andreas.Hofmann@linux.com</string>
-    <string name="versions_code">1.6</string>
-	<string name="version">Version:</string>
-	<string name="medium_not_in_list">Dieses Medium ist nicht in der Wiedergabeliste,\nsoll es hinzugefügt werden?</string>
-	<string name="no_playlist">noch keine Playlisten vorhanden, bitte anlegen!</string>
-	<string name="playlist_added">zur Playlist hinzugefügt</string>
-	<string name="medium_exists">Medium vorhanden</string>
-	<string name="medium_is_in_list">Dieses Medium ist bereits in der Playlist</string>
-	<string name="medium_delete_long">Möchtests du diese Medium aus der DkPlay Datenbank entfernen?</string>
-	<string name="medium_delete">Medium löschen</string>
-	<string name="add_to_playlist">zu einer Playlist hinzufügen</string>
-	<string name="medium_edit">Medium bearbeiten</string>
-	<string name="choice">Auswahl:</string>
-	<string name="medium_not_present">Medium nicht vorhanden</string>
-	<string name="medium_corrupt">fehlerhaftes Medium</string>
-	<string name="medium_corrupt_long">Die Datei: \n%1$s\nscheint beschädigt zu sein, oder das Format kann nicht wiedergegeben werden.\n\nMöchtests du diese Medium aus der DkPlay Datenbank entfernen?</string>
-	<string name="playlist_delete">Playlist löschen</string>
-	<string name="playlist_delete_long">Sicher das sie die Playlist:\n%1$s\nlöschen möchten?</string>
-	<string name="re_create_database">Datenbank neu anlegen?</string>
-	<string name="re_create_database_long">Willst du die Musik-Datenbank wirklich neu anlegen?\nDabei gehen alle </string>
-	<string name="action_canceled">Aktion abgebrochen</string>
-	<string name="re_create_database_ok">Datenbank wurde neu angelegt!</string>
-	<string name="share_title">zeige was du hörst!</string>
-	<string name="share_subject">Hey, ich höre gerade Musik!</string>
-	<string name="share_body1">Ich höre gerade "%1$s" von %2$s</string>
-	<string name="share_body2">Ich höre gerade "%1$s"</string>
-	<string name="save_current_playlist">diese Playliste speichern</string>
-	<string name="overlay_player">Overlay Player</string>
-	<string name="toggle_overlay_player">Overlay Player Ein/Aus-schalten</string>
-	<string name="overlay_dont_play">es wird nichts abgespielt</string>
+    <string name="impressum"><b>Angaben gemäß § 5 TMG:</b>\n\nAndreas Hofmann\nGartenstraße 13\n88422 Bad Buchau\n\n<b>Kontakt:</b>\nE-Mail: Andreas.Hofmann@linux.com</string>
+    <string name="versions_code">1.7</string>
+    <string name="version">Version:</string>
+    <string name="medium_not_in_list">Dieses Medium ist nicht in der Wiedergabeliste,\nsoll es hinzugefügt werden?</string>
+    <string name="no_playlist">noch keine Playlisten vorhanden, bitte anlegen!</string>
+    <string name="playlist_added">zur Playlist hinzugefügt</string>
+    <string name="medium_exists">Medium vorhanden</string>
+    <string name="medium_is_in_list">Dieses Medium ist bereits in der Playlist</string>
+    <string name="medium_delete_long">Möchtests du diese Medium aus der DkPlay Datenbank entfernen?</string>
+    <string name="medium_delete">Medium löschen</string>
+    <string name="add_to_playlist">zu einer Playlist hinzufügen</string>
+    <string name="medium_edit">Medium bearbeiten</string>
+    <string name="choice">Auswahl:</string>
+    <string name="medium_not_present">Medium nicht vorhanden</string>
+    <string name="medium_corrupt">fehlerhaftes Medium</string>
+    <string name="medium_corrupt_long">Die Datei: \n%1$s\nscheint beschädigt zu sein, oder das Format kann nicht wiedergegeben werden.\n\nMöchtests du diese Medium aus der DkPlay Datenbank entfernen?</string>
+    <string name="playlist_delete">Playlist löschen</string>
+    <string name="playlist_delete_long">Sicher das sie die Playlist:\n%1$s\nlöschen möchten?</string>
+    <string name="re_create_database">Datenbank neu anlegen?</string>
+    <string name="re_create_database_long">Willst du die Musik-Datenbank wirklich neu anlegen?\nDabei gehen alle </string>
+    <string name="action_canceled">Aktion abgebrochen</string>
+    <string name="re_create_database_ok">Datenbank wurde neu angelegt!</string>
+    <string name="share_title">zeige was du hörst!</string>
+    <string name="share_subject">Hey, ich höre gerade Musik!</string>
+    <string name="share_body1">Ich höre gerade "%1$s" von %2$s</string>
+    <string name="share_body2">Ich höre gerade "%1$s"</string>
+    <string name="share_body_end"> via #dKPlay</string>
+    <string name="save_current_playlist">diese Playliste speichern</string>
+    <string name="overlay_player">Overlay Player</string>
+    <string name="toggle_overlay_player">Overlay Player Ein/Aus-schalten</string>
+    <string name="overlay_dont_play">es wird nichts abgespielt</string>
+    <string name="adv">dK Play Sync</string>
+    <string name="title_activity_adv">Adv</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="login_error">Login zu dK nicht möglich</string>
+    <string name="not_loged_in">nicht angemeldet</string>
+    <string name="loged_in">eingeloggt als: </string>
+    <string name="update_only_on_wifi">nur bei Wlan Synchronisieren</string>
+    <string name="delete_from_sync">beim löschen auf den Gerät, auch bei Sync löschen?</string>
+    <string name="delete_from_device">wenn ein Song bei Sync gelöscht wird, auch auf den Gerät löschen?</string>
+    <string name="song_sync">Song wird synchronisiert</string>
+    <string name="adv_show_notify">zeige Benarichtigung</string>
+    <string name="adv_file_to_big">Datei ist zu groß</string>
+    <string name="adv_update_interval">Update Interval</string>
+
+    <string-array name="update_interval_names">
+        <item>30 min</item>
+        <item>1 Stunde</item>
+        <item>2 Stunden</item>
+        <item>3 Stunden</item>
+        <item>4 Stunden</item>
+        <item>5 Stunden</item>
+        <item>6 Stunden</item>
+        <item>7 Stunden</item>
+        <item>8 Stunden</item>
+    </string-array>
+    <string-array name="update_interval_values">
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>180</item>
+        <item>240</item>
+        <item>300</item>
+        <item>360</item>
+        <item>420</item>
+        <item>480</item>
+    </string-array>
+
+    <string name="use_bg_images">benutze Hintergundbilder</string>
+    <string name="title_activity_cloud_songs">CloudSongs</string>
+    <string name="cloud_error1">die Cloud ist nicht erreichbar</string>
+    <string name="play_cloud_song">Song anhören?</string>
+    <string name="play_cloud_song_msg">Möchtest du diesen Song anhören? (dadurch wird Daten-Volumen verbraucht, wenn du nicht im WLAN bist)</string>
+    <string name="download_cloud_song">Song wird heruntergeladen...</string>
+    <string name="deleteCache">aus dem Cache löschen</string>
+    <string name="deleteCloud">aus der Cloud löschen</string>
+    <string name="storeDevice">auf dem Gerät speichern</string>
+    <string name="title_activity_whats_new">WhatsNew</string>
+    <string name="whats_new">was ist neu?</string>
+    <string name="state_on_device">Song ist auf ihrem Gerät und in der Cloud</string>
+    <string name="state_on_cache">der Song ist in der Cloud und im Cache</string>
+    <string name="state_on_cloud">der Song ist nur in der Cloud</string>
+    <string name="listen">anhören</string>
+    <string name="delete_cloud">Song aus der Cloud löschen?</string>
+    <string name="delete_cloud_msg">möchtest du wirklich des Song aus der Cloud löschen?</string>
+    <string name="cloud_song_delete">Song wird gelöscht...</string>
+    <string name="cloud_delete_success">Song gelöscht</string>
+    <string name="cloud_delete_error">Song konnte nicht gelöscht werden</string>
+    <string name="refresh">neu laden</string>
+    <string name="title_activity_play_file">dK Play</string>
+    <string name="cloud_deletet_items">gelöschte Songs</string>
+    <string name="title_activity_cloud_deleted_items">in der Cloud gelöscht</string>
+    <string name="cloud_sync_songs">Songs abgleichen</string>
+    <string name="cloud_release">Song wieder synchronisieren</string>
+    <string name="no_account">du bist nicht eingeloggt</string>
+    <string name="loading">Lade...</string>
+    <string name="please_wait">bitte warten...</string>
+    <string name="accept">einverstanden</string>
+    <string name="title_activity_extend_abo">Abo verlängern</string>
+    <string name="cur_sku">bisheriger Tarif:</string>
+    <string name="desOnlineSpace">dK Play Sync</string>
+    <string name="search_folder_title">Suche nach Songs in:</string>
+    <string name="search_folder_normal">Typisch</string>
+    <string name="search_folder_all">überall</string>
+    <string name="search_folder_custom">Ordner selber wählen</string>
+    <string name="search_folder_select_folder">Ordner wählen</string>
+    <string name="no_choice">keine Auswahl</string>
+    <string name="no_choice_msg">Du hast nichts ausgewählt, bitte wähle mindestens eine Option aus!</string>
+    <string name="folder_search">wo suchen</string>
+    <string name="search_end">Suche beendet</string>
+    <string name="start_search">Suche starten</string>
+    <string name="lollipop">Android 5</string>
+    <string name="custom_color">Benutzerdefinierte Farbe</string>
+    <string name="status_bar_same_color">Statusbar Standartfarbe</string>
+    <string name="status_bar_coloring">Statusbar einfärben</string>
+    <string name="nav_bar_same_color">Navigationbar Standartfarbe</string>
+    <string name="nav_bar_coloring">Navigationbar einfärben</string>
+    <string name="licenses">Lizenzen</string>
+    <string name="title_activity_licenses">Lizenzen</string>
+    <string name="gpl_v3">GPL V3</string>
+    <string name="gpl_info">dK PLay steht unter:</string>
+    <string name="used_technologies">verwendete Komponenten:</string>
+    <string name="dksdk">dK SDK for Android\nby Andreas Hofmann</string>
+    <string name="img_license">Bildrechte:\nBalık avı © kmutlu - Fotolia.com\nNeu roter stempel © guukaa - Fotolia.com\nWiese Liegestuhl © JiSign - Fotolia.com</string>
+    <string name="playlist_random">Zufallsmix</string>
+    <string name="data_act">Daten werden Aktualisiert</string>
+
 </resources>

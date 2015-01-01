@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="1" >
+
+    <com.dk.ui.widgets.Label
+        android:id="@+id/label1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp" />
+
+    <com.dk.ui.widgets.ColorButton
+        android:id="@+id/colorButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"  />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/label1"
+        android:layout_alignRight="@+id/label1"
+        android:layout_below="@+id/label1"
+        android:layout_marginTop="41dp"
+        android:baselineAligned="false" >
+
+        <com.dk.ui.widgets.SquareColorButton
+            android:id="@+id/squareColorButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.dk.ui.widgets.SquareColorButton
+            android:id="@+id/squareColorButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.dk.ui.widgets.SquareColorButton
+            android:id="@+id/squareColorButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

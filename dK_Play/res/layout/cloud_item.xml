@@ -1,0 +1,66 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp" >
+	
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+    	
+	    <ImageView
+	        android:id="@+id/cloud_img"
+	        android:layout_width="30dp"
+	        android:layout_height="30dp"
+	        android:layout_marginRight="10dp"
+	        android:contentDescription="@string/cover_art"
+	        android:src="@drawable/red_point" />
+	
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical" >
+	        
+	        <TextView
+			    android:id="@+id/song_title"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:textSize="18sp"
+			    android:textStyle="bold"
+			    android:ellipsize="end"
+	        	android:maxLines="1" />
+		 
+		  	<TextView
+			    android:id="@+id/song_artist"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:textSize="16sp"
+			    android:ellipsize="end"
+	        	android:maxLines="1" />
+		  	
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout 
+        android:id="@+id/expand"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+    	android:layout_marginBottom="-50dip"
+    	android:layout_height="50dip"
+    	android:visibility="gone">
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center" 
+            android:text=""
+            android:ellipsize="end"
+	        android:maxLines="1"
+	        android:textSize="18sp"/>
+        
+    </LinearLayout>
+
+</LinearLayout>

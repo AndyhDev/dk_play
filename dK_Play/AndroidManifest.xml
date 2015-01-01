@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dk.play"
     android:installLocation="internalOnly"
-    android:versionCode="7"
-    android:versionName="1.6" >
+    android:versionCode="21"
+    android:versionName="1.7" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -15,15 +15,17 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.dk.play.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.dk.play.DkPlay"
+            android:name=".DkPlay"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>
@@ -40,66 +42,66 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <receiver android:name="com.dk.play.service.BootBroadcastReceiver" >
+        <receiver android:name=".service.BootBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.dk.play.service.PlayService"
+            android:name=".service.PlayService"
             android:permission="android.permission.BIND_REMOTEVIEWS" >
         </service>
 
         <activity
-            android:name="com.dk.play.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.dk.play.DkPlay" >
+            android:parentActivityName=".DkPlay" >
         </activity>
         <activity
-            android:name="com.dk.play.CurPlaylist"
+            android:name=".CurPlaylist"
             android:label="@string/title_activity_cur_playlist"
             android:launchMode="singleTop"
-            android:parentActivityName="com.dk.play.DkPlay" >
+            android:parentActivityName=".DkPlay" >
         </activity>
 
-        <receiver android:name="com.dk.play.service.LockScreenReceiver" >
+        <receiver android:name=".service.LockScreenReceiver" >
             <intent-filter>
                 <action android:name="android.test.BROADCAST" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.dk.play.service.RemoteControlReceiver" >
+        <receiver android:name=".service.RemoteControlReceiver" >
             <intent-filter>
                 <action android:name="android.test.BROADCAST" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.dk.play.SearchActivity"
+            android:name=".SearchActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_search"
             android:noHistory="true"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.dk.play.RemovedActivity"
+            android:name=".RemovedActivity"
             android:label="@string/title_activity_removed" >
         </activity>
         <activity
-            android:name="com.dk.play.PlaylistActivity"
+            android:name=".PlaylistActivity"
             android:label="@string/title_activity_playlist" >
         </activity>
         <activity
-            android:name="com.dk.play.AutoPlaylistActivity"
+            android:name=".AutoPlaylistActivity"
             android:label="@string/title_activity_auto_playlist" >
         </activity>
         <activity
-            android:name="com.dk.play.SpecialPlaylist"
+            android:name=".SpecialPlaylist"
             android:label="@string/title_activity_special_playlist" >
         </activity>
 
         <receiver
-            android:name="com.dk.play.widget.WidgetBigReceiver"
+            android:name=".widget.WidgetBigReceiver"
             android:label="@string/widget_name" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -110,7 +112,7 @@
                 android:resource="@xml/widget_info" />
         </receiver>
         <receiver
-            android:name="com.dk.play.widget.WidgetBig2Receiver"
+            android:name=".widget.WidgetBig2Receiver"
             android:label="@string/widget2_name" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -122,31 +124,100 @@
         </receiver>
 
         <activity
-            android:name="com.dk.play.FirstLaunchActivity"
+            android:name=".FirstLaunchActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_first_launch"
             android:noHistory="true"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.dk.play.VideoEditActivity"
+            android:name=".VideoEditActivity"
             android:label="@string/title_activity_video_edit" >
         </activity>
         <activity
-            android:name="com.dk.play.MusicEditActivity"
+            android:name=".MusicEditActivity"
             android:label="@string/title_activity_music_edit" >
         </activity>
 
         <provider
-            android:name="com.dk.play.util.SearchProvider"
+            android:name=".util.SearchProvider"
             android:authorities="com.dk.play.util.SearchProvider"
             android:exported="false"
             android:multiprocess="true" >
         </provider>
 
         <activity
-            android:name="com.dk.play.InfoActivity"
-            android:label="@string/title_activity_info" >
+            android:name=".InfoActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_info"
+            android:parentActivityName=".DkPlay"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Adv"
+            android:label="@string/title_activity_adv"
+            android:parentActivityName=".DkPlay" >
+        </activity>
+        <activity android:name="com.dk.account.LoginActivity" >
+        </activity>
+
+        <service android:name=".service.AdvService" >
+        </service>
+        <service android:name=".service.ImagesService" >
+        </service>
+
+        <activity
+            android:name=".CloudSongs"
+            android:label="@string/title_activity_cloud_songs" >
+        </activity>
+
+        <service android:name=".service.DownloadService" >
+        </service>
+
+        <activity
+            android:name=".WhatsNew"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_whats_new"
+            android:parentActivityName=".DkPlay"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".PlayFile"
+            android:label="@string/title_activity_play_file"
+            android:parentActivityName=".DkPlay" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MUSIC_PLAYER" />
+
+                <category android:name="android.intent.category.APP_MUSIC" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/x-ogg" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CloudDeletedItems"
+            android:label="@string/title_activity_cloud_deleted_items"
+            android:parentActivityName=".CloudSongs" >
+        </activity>
+
+        <receiver android:name=".adv.AdvReceiver" >
+        </receiver>
+        <activity android:name="com.dk.ui.widgets.FolderSelector" >
+        </activity>
+        <activity
+            android:name=".Licenses"
+            android:label="@string/title_activity_licenses"
+            android:parentActivityName=".InfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="Gpl_v3"
+            android:label="@string/gpl_v3"
+            android:parentActivityName=".Licenses">
         </activity>
     </application>
 

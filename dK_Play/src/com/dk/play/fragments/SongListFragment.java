@@ -46,6 +46,7 @@ import com.dk.play.database.SQLiteDataSource;
 import com.dk.play.service.PlayService;
 import com.dk.play.util.SongAdapter;
 import com.dk.play.util.SongViewHolder;
+import com.dk.play.util.Util;
 
 public class SongListFragment extends Fragment {
 	private static final String TAG = "SongListFragment";
@@ -258,10 +259,7 @@ public class SongListFragment extends Fragment {
 
 			builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton){
-					datasource = new SQLiteDataSource(getActivity());
-					datasource.open();
-					datasource.removeSQLSong(song);
-					datasource.close();
+					Util.removeSQLSong(song);
 
 					Intent readNew = new Intent(PlayService.READ_NEW);
 					getActivity().sendBroadcast(readNew);

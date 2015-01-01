@@ -1,5 +1,8 @@
 package com.dk.play.util;
 
+import com.dk.play.App;
+import com.dk.play.R;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -64,8 +67,16 @@ public class Image {
 		options.inSampleSize = calculateInSampleSize(options, size, size);
 
 		options.inJustDecodeBounds = false;
-		Bitmap bmp = BitmapFactory.decodeFile(path, options);
-		
+		Bitmap bmp = null;
+		try{
+			bmp = BitmapFactory.decodeFile(path, options);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		if(bmp == null){
+			Resources res = App.getResourcesStatic();
+			return decodeSampledBitmapFromResource(res, R.drawable.default_cover, 200, 200);
+		}
 		int size2;
 		if(bmp.getWidth() > bmp.getHeight()){
 			size2 = bmp.getHeight();

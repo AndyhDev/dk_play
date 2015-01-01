@@ -38,6 +38,40 @@
                 android:contentDescription="@string/contentDescription" />
 
         </RelativeLayout>
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/orange" />
+        
+        <RelativeLayout
+            android:id="@+id/playlist_random"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/songlist_select_color" >
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/imageView10"
+                android:text="@string/playlist_random"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/cube"
+                android:contentDescription="@string/contentDescription" />
+
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"

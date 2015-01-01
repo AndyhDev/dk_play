@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/reload"
+        android:title="@string/dkrelaod"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="ifRoom">
+    </item>
+    <item android:id="@+id/new_login" 
+        android:title="@string/dknew_login" 
+        android:showAsAction="never">
+    </item>
+    <item android:id="@+id/disconnect"
+        android:title="@string/dkdisconnect"
+        android:showAsAction="never">
+    </item>
+</menu>

@@ -2,16 +2,19 @@ package com.dk.play;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -24,12 +27,17 @@ import android.widget.Toast;
 import com.dk.play.database.SQLiteDataSource;
 import com.dk.play.fragments.PlayerControlFragment;
 import com.dk.play.fragments.SongListFragment;
+import com.dk.play.service.AdvService;
+import com.dk.play.service.ImagesService;
 import com.dk.play.service.PlayService;
+import com.dk.play.util.ActionBarImage;
+import com.dk.play.util.LActivity;
 import com.dk.play.util.NavDrawerFunc;
+import com.dk.play.util.NewPopUp;
 import com.dk.play.util.YesNoDlg;
 import com.dk.play.util.YesNoDlgListener;
 
-public class DkPlay extends Activity{
+public class DkPlay extends LActivity{
 	private static final String TAG = "DkPlay";
 
 	//private DrawerLayout drawer;
@@ -39,11 +47,20 @@ public class DkPlay extends Activity{
 	private NavDrawerFunc navDrawerFunc;
 	private SongListFragment frag1;
 	private PlayerControlFragment frag2;
-
+	@SuppressWarnings("unused")
+	private ActionBarImage actionBarImage;
+	private boolean useBgImages = false;
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState){	
+		useBgImages = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_bg_images", false);
+		if(useBgImages){
+			setTheme(R.style.AppTheme2);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dk_play);
+		actionBarImage = new ActionBarImage(this);
+		
 		if(savedInstanceState == null){
 			if(frag1 == null){
 				frag1 = new SongListFragment();
@@ -61,6 +78,7 @@ public class DkPlay extends Activity{
 			}
 		}else{
 			FragmentManager fragmentManager = getFragmentManager();
+			frag1 = (SongListFragment) fragmentManager.findFragmentById(R.id.fragment1);
 			frag2 = (PlayerControlFragment) fragmentManager.findFragmentById(R.id.fragment2);
 		}
 		/*drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -72,14 +90,31 @@ public class DkPlay extends Activity{
 
 		//Intent intent= new Intent(this, PlayService.class);
 		//bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
+		
+	    
 		if (isFirstLaunch()) {
 			Intent firstLaunchIntent = new Intent(this, FirstLaunchActivity.class);
 			firstLaunchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			startActivity(firstLaunchIntent);
 			finish();
+		}else{
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					Intent advIntent = new Intent(DkPlay.this, AdvService.class);    
+			        startService(advIntent);
+			        Intent imageIntent = new Intent(DkPlay.this, ImagesService.class);    
+			        startService(imageIntent);
+				}
+			}, 2000);
 		}
-
+		if(isNewVersion()){
+			NewPopUp pop = new NewPopUp(this);
+			pop.show();
+		}
+		Log.d(TAG, "onCreate");
 	}
 
 	@Override
@@ -131,8 +166,11 @@ public class DkPlay extends Activity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.dk_play, menu);
-
+		if(useBgImages){
+			inflater.inflate(R.menu.dk_play_l, menu);
+		}else{
+			inflater.inflate(R.menu.dk_play, menu);
+		}
 		searchItem = menu.findItem(R.id.action_search_song);
 		searchView = (SearchView) searchItem.getActionView();
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -146,11 +184,35 @@ public class DkPlay extends Activity{
 	}
 
 	private boolean isFirstLaunch() {
-		// Restore preferences
 		SharedPreferences settings = getSharedPreferences("other", MODE_PRIVATE);
 		boolean isFirstLaunch = settings.getBoolean("isFirstLaunch", true);
 		return isFirstLaunch;
 		//return true;
+	}
+	private boolean isNewVersion() {
+		// Restore preferences
+		SharedPreferences settings = getSharedPreferences("other", MODE_PRIVATE);
+		int version = settings.getInt("version", 0);
+		Log.d(TAG, "version1:" + version);
+		try {
+			PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			int cur_version = pInfo.versionCode;
+			Log.d(TAG, "version2:" + cur_version);
+			if(version != cur_version){
+				settings.edit().putInt("version", cur_version).commit();
+				Log.d(TAG, "new 1");
+				return true;
+			}
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		Log.d(TAG, "new 2");
+		return false;
+		//return true;
+	}
+	public void startAdv(){
+		Intent i = new Intent(this, Adv.class);
+		startActivity(i);
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -196,8 +258,15 @@ public class DkPlay extends Activity{
 			service.setAction(PlayService.ACTION_TOGGLE_OVERLAY_PLAYER);
 			startService(service);
 			return true;
+		case R.id.adv:
+			startAdv();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}	
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+	
 }

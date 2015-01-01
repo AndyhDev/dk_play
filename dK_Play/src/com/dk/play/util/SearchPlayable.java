@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
@@ -22,6 +23,7 @@ import com.dk.play.database.SQLRemovedList;
 import com.dk.play.database.SQLSong;
 import com.dk.play.database.SQLSongList;
 import com.dk.play.database.SQLiteDataSource;
+import com.dk.ui.widgets.SelectedFolderList;
 
 public class SearchPlayable {
 	private static final String TAG = "SearchPlayable";
@@ -32,6 +34,8 @@ public class SearchPlayable {
 	private SearchListener listener;
 	private Handler handler = new Handler();
 	private List<String> extensions = new ArrayList<String>();
+	private String cloudDir = Paths.getAdvSongDir().getAbsolutePath();
+	private SelectedFolderList searchFolder;
 	
 	public SearchPlayable(Context context) {
 		this.context = context;
@@ -44,25 +48,37 @@ public class SearchPlayable {
 		this.listener = listener;
 	}
 	public void addSingelPath(String path, Boolean deleteRemoved){
-		//TODO check path exists
-		datasource = new SQLiteDataSource(context);
-		datasource.open();
-		if(deleteRemoved){
-			SQLRemovedList rmList = datasource.getSQLRemovedList();
-			if(rmList.isIn(path)){
-				SQLRemoved item = rmList.get(path);
-				datasource.removeRemoved(item);
+		if(new File(path).exists()){
+			datasource = new SQLiteDataSource(context);
+			datasource.open();
+			if(deleteRemoved){
+				SQLRemovedList rmList = datasource.getSQLRemovedList();
+				if(rmList.isIn(path)){
+					SQLRemoved item = rmList.get(path);
+					datasource.removeRemoved(item);
+				}
 			}
+			addPath(path);
+			datasource.close();
 		}
-		addPath(path);
-		datasource.close();
 	}
 	public void addSingelPath(String path){
-		//TODO check path exists
-		datasource = new SQLiteDataSource(context);
-		datasource.open();
-		addPath(path);
-		datasource.close();
+		if(new File(path).exists()){
+			datasource = new SQLiteDataSource(context);
+			datasource.open();
+			addPath(path);
+			datasource.close();
+		}
+	}
+	public SQLSong getSQLSong(String path){
+		if(new File(path).exists()){
+			datasource = new SQLiteDataSource(context);
+			datasource.open();
+			SQLSong song = addPath(path, true);
+			datasource.close();
+			return song;
+		}
+		return null;
 	}
 	public void search(){
 		new Thread(new Runnable() {
@@ -90,6 +106,10 @@ public class SearchPlayable {
 		}).start();
 	}
 	private void doSearch(){
+		searchFolder = new SelectedFolderList();
+		SharedPreferences settings = context.getSharedPreferences("other", Context.MODE_PRIVATE);
+		searchFolder.readFromSettings(SelectedFolderList.folderKey, settings);
+		
 		datasource = new SQLiteDataSource(context);
 		datasource.open();
 
@@ -178,13 +198,31 @@ public class SearchPlayable {
 		}
 		return null;
 	}
-	private void addPath(String path){
+	private SQLSong addPath(String path){
+		return addPath(path, false);
+	}
+	private SQLSong addPath(String path, boolean everywhere){
+		if(path.startsWith(cloudDir)){
+			Log.d(TAG, "ignore: '" + path + "'");
+			return null;
+		}
+		if(!everywhere){
+			if(searchFolder == null){
+				searchFolder = new SelectedFolderList();
+				SharedPreferences settings = context.getSharedPreferences("other", Context.MODE_PRIVATE);
+				searchFolder.readFromSettings(SelectedFolderList.folderKey, settings);
+			}
+			if(!searchFolder.isFileOK(new File(path))){
+				return null;
+			}
+		}
 		Log.d(TAG, "addPath('" + path + "')");
 		String artist = "";
 		String album = "";
 		String title = "";
 		String genre = "";
 		byte[] cover = null;
+		SQLSong song2 = null;;
 		int type = SQLSong.TYPE_MUSIC;
 
 		MediaMetadataRetriever id3 = new MediaMetadataRetriever();
@@ -247,10 +285,12 @@ public class SearchPlayable {
 				coverName = Long.toString(System.currentTimeMillis()).replace(".", "");
 				saveCover(cover, coverName + ".jpg");
 			}
+			@SuppressWarnings("unused")
 			File song = new File(path);
-			long date = song.lastModified();
+			long date = System.currentTimeMillis()/1000;//song.lastModified();
 			final SQLSong sqlSong = new SQLSong(0, title, artist, album, genre, coverName, 0, 0, path, date, type, 0);
 			datasource.addSong(sqlSong);
+			song2 = sqlSong;
 			if(listener != null){
 				handler.post(new Runnable(){
 					@Override
@@ -259,7 +299,12 @@ public class SearchPlayable {
 					}
 				});
 			}
+			
 		}
+		if(songList != null){
+			songList.add(song2);
+		}
+		return song2;
 	}
 	private void saveCover(byte[] cover, String fileName){
 		File file = new File(Paths.getCoverDir(), fileName);

@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.dk.play.CloudSongs" >
+    <item 
+        android:id="@+id/refresh" 
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/refresh" android:visible="true" android:enabled="true" android:showAsAction="always">
+    </item>
+	<item android:id="@+id/deleted_items" android:showAsAction="never" android:title="@string/cloud_deletet_items"></item>
+	<item android:id="@+id/cloud_sync_songs" android:title="@string/cloud_sync_songs" android:showAsAction="never"></item>
+	    <item 
+        android:id="@+id/adv" 
+        android:showAsAction="never" 
+        android:title="@string/adv" 
+        android:orderInCategory="90"/>
+</menu>

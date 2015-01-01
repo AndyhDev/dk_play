@@ -18,6 +18,7 @@ public class AutoPlaylistFragment extends Fragment implements OnClickListener {
 	private Context context;
 	private ScrollView layout;
 	private RelativeLayout playlistMain;
+	private RelativeLayout playlistRandom;
 	private RelativeLayout playlistMost;
 	private RelativeLayout playlistClick;
 	private RelativeLayout playlistDate;
@@ -35,6 +36,9 @@ public class AutoPlaylistFragment extends Fragment implements OnClickListener {
 		layout = (ScrollView)inflater.inflate(R.layout.auto_playlist_fragment, container, false);
 		playlistMain = (RelativeLayout)layout.findViewById(R.id.playlist_main);
 		playlistMain.setOnClickListener(this);
+		
+		playlistRandom = (RelativeLayout)layout.findViewById(R.id.playlist_random);
+		playlistRandom.setOnClickListener(this);
 		
 		playlistMost = (RelativeLayout)layout.findViewById(R.id.playlist_most);
 		playlistMost.setOnClickListener(this);

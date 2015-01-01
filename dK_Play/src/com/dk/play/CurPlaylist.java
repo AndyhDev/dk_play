@@ -2,7 +2,6 @@ package com.dk.play;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.content.res.Configuration;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -25,11 +25,13 @@ import com.dk.play.database.SQLSongList;
 import com.dk.play.fragments.CurPlaylistFragment;
 import com.dk.play.fragments.PlayerControlFragment;
 import com.dk.play.service.PlayService;
+import com.dk.play.util.ActionBarImage;
+import com.dk.play.util.LActivity;
 import com.dk.play.util.NavDrawerFunc;
 import com.dk.play.util.SaveCurrentPlaylistDlg;
 import com.dk.play.util.SearchAdapter;
 
-public class CurPlaylist extends Activity implements OnQueryTextListener, OnSuggestionListener {
+public class CurPlaylist extends LActivity implements OnQueryTextListener, OnSuggestionListener {
 	private static final String TAG = "CurPlaylist";
 
 	private NavDrawerFunc navDrawerFunc;
@@ -39,9 +41,17 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 	private SearchView searchView ;
 	private MenuItem searchItem;
 	private SearchAdapter searchAdapter;
-
+	
+	@SuppressWarnings("unused")
+	private ActionBarImage actionBarImage;
+	private boolean useBgImages = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		useBgImages = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_bg_images", false);
+		if(useBgImages){
+			setTheme(R.style.AppTheme2);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cur_playlist);
 		navDrawerFunc = new NavDrawerFunc(this);
@@ -71,7 +81,8 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 		int[] to = {R.id.item_title, R.id.item_artist};
 		//searchAdapter = new SimpleCursorAdapter(this, R.layout.search_list_item, cursor, from, to);
 		searchAdapter = new SearchAdapter(this, R.layout.search_list_item, cursor, new SQLSongList(), from, to);
-
+		
+		actionBarImage = new ActionBarImage(this);
 	}
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -92,7 +103,11 @@ public class CurPlaylist extends Activity implements OnQueryTextListener, OnSugg
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.cur_playlist, menu);
+		if(useBgImages){
+			inflater.inflate(R.menu.cur_playlist_l, menu);
+		}else{
+			inflater.inflate(R.menu.cur_playlist, menu);
+		}
 
 		searchItem = menu.findItem(R.id.action_search_song);
 		searchView = (SearchView) searchItem.getActionView();

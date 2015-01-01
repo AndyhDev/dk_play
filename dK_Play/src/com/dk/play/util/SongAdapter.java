@@ -75,7 +75,6 @@ public class SongAdapter extends BaseAdapter {
 		return 0;
 	}
 	private static Bitmap getCover(String path){
-		path = Paths.getCoverPath(path);
 		return Image.decodeSampledBitmapFromPath(path, 80, 80);
 	}
 	public void cleanImageCache(){
@@ -95,7 +94,7 @@ public class SongAdapter extends BaseAdapter {
 	    protected Bitmap doInBackground(SongViewHolder... params){
 	    	holder = params[0];
 	    	position = holder.position;
-	    	String path = holder.song.getCover();
+	    	String path = holder.song.getCoverUri().getPath();
 	    	if(coverCache.get(path) != null){
 	    		return coverCache.get(path);
 	    	}
@@ -145,7 +144,7 @@ public class SongAdapter extends BaseAdapter {
 		viewHolder.song = curSong;
 		viewHolder.position = position;
 		
-		String path = viewHolder.song.getCover();
+		String path = viewHolder.song.getCoverUri().getPath();
     	if(coverCache.get(path) != null){
     		Bitmap result = coverCache.get(path);
 			viewHolder.cover.setImageBitmap(result);

@@ -21,4 +21,11 @@ public class Paths {
 		}
 		return dir;
 	}
+	public static File getAdvSongDir(){
+		File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "dkPlaySync");
+		if(!dir.exists()){
+			dir.mkdirs();
+		}
+		return dir;
+	}
 }

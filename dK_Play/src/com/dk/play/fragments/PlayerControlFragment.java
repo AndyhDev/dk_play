@@ -40,7 +40,6 @@ import android.widget.TextView;
 import com.dk.play.R;
 import com.dk.play.database.SQLSong;
 import com.dk.play.service.PlayService;
-import com.dk.play.util.Paths;
 
 public class PlayerControlFragment extends Fragment implements OnClickListener, OnSeekBarChangeListener, OnRatingBarChangeListener{
 	private static final String TAG = "PlayerControlFragment";
@@ -64,7 +63,9 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 	private int closeSize = 70;
 	private Handler seekBarHandler = new Handler();
 	private Integer seekProgress;
-
+	
+	private boolean showExpander = true;
+	
 	private static final String KEY_OPEN_STATE = "openState";
 
 	/*@Override
@@ -101,6 +102,9 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 		background = (ImageView)layout.findViewById(R.id.player_control_bg);
 		title = (TextView)layout.findViewById(R.id.player_control_title);
 		bnt = (ImageButton)layout.findViewById(R.id.player_control_expand);
+		if(!showExpander){
+			bnt.setVisibility(View.GONE);
+		}
 		playBnt = (ImageButton)layout.findViewById(R.id.player_control_play);
 		pauseBnt = (ImageButton)layout.findViewById(R.id.player_control_pause);
 		nextBnt = (ImageButton)layout.findViewById(R.id.player_control_next);
@@ -181,6 +185,7 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 			IntentFilter intentFilter = new IntentFilter(PlayService.NEW_SONG);
 			intentFilter.addAction(PlayService.NEW_LOOP);
 			intentFilter.addAction(PlayService.NEW_PLAY_STATE);
+			intentFilter.addAction(PlayService.OVERLAY_STARTED);
 			this.getActivity().registerReceiver(serviceReceiver, intentFilter);
 		}
 	}
@@ -217,6 +222,8 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 			}else if(intent.getAction().equals(PlayService.NEW_PLAY_STATE)){
 				Log.d(TAG, "new playState:" + intent.getIntExtra(PlayService.PLAY_STATE, 0));
 				setPlayState(intent.getIntExtra(PlayService.PLAY_STATE, PlayService.PLAY_STATE_STOP));
+			}else if(intent.getAction().equals(PlayService.OVERLAY_STARTED)){
+				getActivity().finish();
 			}
 
 		}
@@ -269,16 +276,15 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 		if(song == null){
 			return;
 		}
-		setCover(song.getCover());
+		setCover(song.getCoverUri().getPath());
 	}
-	private void setCover(String coverName){
-		if(coverName == null){
+	private void setCover(String coverPath){
+		if(coverPath == null){
 			return;
 		}
-		String path = Paths.getCoverPath(coverName);
-		File cover = new File(path);
+		File cover = new File(coverPath);
 		if(cover.exists()){
-			Bitmap bmp = BitmapFactory.decodeFile(path);
+			Bitmap bmp = BitmapFactory.decodeFile(coverPath);
 			background.setImageBitmap(bmp);
 		}else{
 			background.setImageDrawable(context.getResources().getDrawable(R.drawable.default_cover));
@@ -378,6 +384,8 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 			}else{
 				body = getString(R.string.share_body1, song.getTitle(), song.getArtist());
 			}
+			
+			body += " " + getString(R.string.share_body_end);
 			Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
 			//Uri uri = song.getCoverUri();
 			//if(uri != null){
@@ -503,5 +511,20 @@ public class PlayerControlFragment extends Fragment implements OnClickListener, 
 				service.setRating((int)rating);
 			}
 		}
+	}
+	
+	public void setExpandable(boolean expandable){
+		showExpander = expandable;
+		if(!showExpander){
+			if(bnt != null){
+				bnt.setVisibility(View.GONE);
+			}
+		}
+	}
+	public boolean getExpandable(){
+		return showExpander;
+	}
+	public void setPrevOpenState(boolean state){
+		openState = state;
 	}
 }

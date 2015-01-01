@@ -3,4 +3,29 @@
     <CheckBoxPreference android:defaultValue="false" android:key="play_at_boot" android:title="@string/play_at_boot"/>
     <ListPreference android:key="loop_modus" android:title="@string/loop_modus" android:entries="@array/loop_modus_names" android:entryValues="@array/loop_modus_values" android:defaultValue="@string/pref_loop_default" />
 	<ListPreference android:key="start_song" android:title="@string/start_song" />
+	<com.dk.preference.Click android:key="re_gen_cover" android:title="@string/re_gen_cover" />
+	<CheckBoxPreference android:title="@string/use_bg_images" android:key="use_bg_images" android:defaultValue="false" /><PreferenceCategory android:title="@string/adv">
+		<CheckBoxPreference android:defaultValue="true" android:title="@string/update_only_on_wifi" android:key="update_only_on_wifi"/>
+		<CheckBoxPreference android:title="@string/adv_show_notify" android:key="adv_show_notify" android:defaultValue="true"/>
+		<ListPreference android:key="adv_update_interval" android:entryValues="@array/update_interval_values" android:defaultValue="120" android:title="@string/adv_update_interval" android:entries="@array/update_interval_names"/>
+	</PreferenceCategory>
+	<PreferenceCategory android:key="lollipop" android:title="@string/lollipop">
+	    
+	    <CheckBoxPreference android:key="status_bar_coloring" android:enabled="true" android:defaultValue="true" android:title="@string/status_bar_coloring"/>
+	    <CheckBoxPreference android:enabled="true" android:key="status_bar_same_color" android:defaultValue="true" android:title="@string/status_bar_same_color"/>
+	    <com.dk.preference.ColorPicker
+	        android:title="@string/custom_color"
+	        android:defaultValue="@color/orange"
+	        android:key="status_bar_color" />
+	    
+	    <CheckBoxPreference android:key="nav_bar_coloring" android:enabled="true" android:defaultValue="true" android:title="@string/status_bar_coloring"/>
+	    <CheckBoxPreference android:enabled="true" android:key="nav_bar_same_color" android:defaultValue="true" android:title="@string/status_bar_same_color"/>
+	    <com.dk.preference.ColorPicker
+	        android:title="@string/custom_color"
+	        android:defaultValue="@color/orange"
+	        android:key="nav_bar_color" />
+	    
+	    
+	</PreferenceCategory>
+	
 </PreferenceScreen>

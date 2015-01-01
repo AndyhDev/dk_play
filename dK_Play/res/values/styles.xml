@@ -17,4 +17,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
+     <!-- Application theme. -->
+    <style name="AppTheme2" parent="AppBaseThemeImage">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+  <style name="CheckBoxOrange" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/orange_btn_check_holo_light</item>
+  </style>
+
 </resources>

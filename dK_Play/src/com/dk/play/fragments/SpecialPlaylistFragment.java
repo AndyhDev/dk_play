@@ -2,6 +2,7 @@ package com.dk.play.fragments;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
 
 import android.app.AlertDialog;
@@ -45,6 +46,7 @@ import com.dk.play.database.SQLiteHelper;
 import com.dk.play.service.PlayService;
 import com.dk.play.util.SongAdapter;
 import com.dk.play.util.SongViewHolder;
+import com.dk.play.util.Util;
 
 public class SpecialPlaylistFragment extends Fragment {
 	private static final String TAG = "SpecialPlaylistFragment";
@@ -150,10 +152,7 @@ public class SpecialPlaylistFragment extends Fragment {
 
 			builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton){
-					datasource = new SQLiteDataSource(getActivity());
-					datasource.open();
-					datasource.removeSQLSong(song);
-					datasource.close();
+					Util.removeSQLSong(song);
 
 					Intent readNew = new Intent(PlayService.READ_NEW);
 					getActivity().sendBroadcast(readNew);
@@ -221,6 +220,12 @@ public class SpecialPlaylistFragment extends Fragment {
 			datasource.close();
 			return;
 
+		}else if(specialId == R.id.playlist_random){
+			playlist = getRandomMix(datasource.getSQLSongList());
+			playlistName = "random:" + System.currentTimeMillis();
+			datasource.close();
+			return;
+
 		}else if(specialId == R.id.playlist_most){
 			playlistName = "most";
 			SQLiteDatabase database = datasource.getDatabase();
@@ -276,6 +281,28 @@ public class SpecialPlaylistFragment extends Fragment {
 			playlist = list;
 		}
 		datasource.close();
+	}
+	private SQLSongList getRandomMix(SQLSongList sqlSongList) {
+		int size = sqlSongList.size();
+		SQLSongList newList = new SQLSongList();
+		if(size > 35){
+			while(true){
+				SQLSong song = sqlSongList.get(getRandom(0, sqlSongList.size()-1));
+				if(!newList.isIn(song)){
+					newList.add(song);
+				}
+				if(newList.size() == 25){
+					break;
+				}
+			}
+			return newList;
+		}
+		return sqlSongList;
+	}
+	
+	private Random r = new Random();
+	public int getRandom(int min, int max){
+		return r.nextInt(max - min + 1) + min;
 	}
 	@Override
 	public void onResume() {

@@ -37,14 +37,13 @@ import android.view.WindowManager;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.dk.play.DkPlay;
+import com.dk.play.CurPlaylist;
 import com.dk.play.R;
 import com.dk.play.database.SQLSong;
 import com.dk.play.database.SQLSongList;
 import com.dk.play.database.SQLiteDataSource;
 import com.dk.play.util.Image;
 import com.dk.play.util.OverlayPlayer;
-import com.dk.play.util.Paths;
 import com.dk.play.widget.WidgetBig2Receiver;
 import com.dk.play.widget.WidgetBigReceiver;
 
@@ -64,7 +63,8 @@ MediaPlayer.OnCompletionListener {
 	public static final String NEW_PLAY_STATE = "com.dk.play.service.NEW_PLAY_STATE";
 	public static final String READ_NEW = "com.dk.play.service.READ_NEW";
 	public static final String NEW_PLAYLIST = "com.dk.play.service.NEW_PLAYLIST";
-
+	public static final String OVERLAY_STARTED = "com.dk.play.service.OVERLAY_STARTED";
+	
 	public static final String SONG_ID = "com.dk.play.service.SONG_ID";
 	public static final String SONG_TITLE = "com.dk.play.service.SONG_TITLE";
 	public static final String SONG_ARTIST = "com.dk.play.service.SONG_ARTIST";
@@ -312,6 +312,12 @@ MediaPlayer.OnCompletionListener {
 	public void setSongById(long id){
 		setSong(id, true);
 	}
+	public void setSongBySQLSong(SQLSong song){
+		setSong(song, true);
+	}
+	public void setSongBySQLSong(SQLSong song, Boolean playing){
+		setSong(song, playing);
+	}
 	public void setSongById(long id, Boolean playing){
 		setSong(id, playing);
 	}
@@ -359,6 +365,32 @@ MediaPlayer.OnCompletionListener {
 	public void setSong(long id, Boolean playing){
 		SQLSong song = songList.getById(id);
 		if(song != null){
+			curSong = song;
+			song.playcountUp();
+
+			SQLiteDataSource db = new SQLiteDataSource(this);
+			db.open();
+			db.updateSong(song);
+			db.close();
+
+			curPos = songList.getIndex(song);
+			updateMetadata();
+			if(playing){
+				play();
+			}else{
+				sendCurSong();
+			}
+		}
+		updateWidgets();
+		if(overlayPlayer != null){
+			overlayPlayer.setSong(curSong);
+		}
+	}
+	public void setSong(SQLSong song, Boolean playing){
+		if(song != null){
+			if(!songList.isIn(song)){
+				songList.add(song);
+			}
 			curSong = song;
 			song.playcountUp();
 
@@ -668,7 +700,7 @@ MediaPlayer.OnCompletionListener {
 		newSong.putExtra(SONG_ARTIST, curSong.getArtist());
 		newSong.putExtra(SONG_ALBUM, curSong.getAlbum());
 		newSong.putExtra(SONG_GENRE, curSong.getGenre());
-		newSong.putExtra(SONG_COVER, curSong.getCover());
+		newSong.putExtra(SONG_COVER, curSong.getCoverUri().getPath());
 		newSong.putExtra(SONG_RATING, curSong.getRating());
 		newSong.putExtra(SONG_PLAY_COUNT, curSong.getPlay_count());
 		newSong.putExtra(SONG_PATH, curSong.getPath());
@@ -676,6 +708,10 @@ MediaPlayer.OnCompletionListener {
 		newSong.putExtra(SONG_TYPE, curSong.getType());
 		newSong.putExtra(SONG_INDEX, songList.getIndex(curSong));
 		sendBroadcast(newSong);
+	}
+	private void sendOverlayStarted(){
+		Intent overlay = new Intent(OVERLAY_STARTED);
+		sendBroadcast(overlay);
 	}
 	public void setRating(int rating) {
 		if(curSong != null){
@@ -692,7 +728,9 @@ MediaPlayer.OnCompletionListener {
 	private void startNotify(){
 
 		int curApi = android.os.Build.VERSION.SDK_INT;
-		if(curApi >= android.os.Build.VERSION_CODES.JELLY_BEAN){
+		if(curApi >= 21){
+			startNotifyApi21();
+		}else if(curApi >= android.os.Build.VERSION_CODES.JELLY_BEAN){
 			startNotifyApi16();
 		}else{
 			startNotifyApi14();
@@ -701,14 +739,14 @@ MediaPlayer.OnCompletionListener {
 
 	private void startNotifyApi14(){
 		Bitmap icon;
-		String coverName = curSong.getCover();
-		File cover = Paths.getCoverFile(coverName);
+		//String coverName = curSong.getCover();
+		File cover = new File(curSong.getCoverUri().getPath());//Paths.getCoverFile(coverName);
 		if(cover.exists()){
 			icon = Image.decodeSampledBitmapFromPath(cover.getAbsolutePath(), 200, 200);
 		}else{
 			icon = Image.decodeSampledBitmapFromResource(getResources(), R.drawable.default_cover, 200, 200);
 		}
-		Intent contentIntent = new Intent(this, DkPlay.class);
+		Intent contentIntent = new Intent(this, CurPlaylist.class);
 		PendingIntent pContentIntent = PendingIntent.getActivity(this, 0, contentIntent, 0);
 
 		Intent prevIntent = new Intent(this, RemoteControlReceiver.class);
@@ -753,8 +791,8 @@ MediaPlayer.OnCompletionListener {
 	@SuppressLint("NewApi")
 	private void startNotifyApi16(){
 		Bitmap icon;
-		String coverName = curSong.getCover();
-		File cover = Paths.getCoverFile(coverName);
+		//String coverName = curSong.getCover();
+		File cover = new File(curSong.getCoverUri().getPath());//Paths.getCoverFile(coverName);
 		if(cover.exists()){
 			icon = Image.decodeSquareBitmapFromPath(cover.getAbsolutePath(), 200);
 		}else{
@@ -762,7 +800,7 @@ MediaPlayer.OnCompletionListener {
 		}
 		//Bitmap logo = Image.decodeSampledBitmapFromResource(getResources(), R.drawable.ic_launcher, 100, 100);
 
-		Intent contentIntent = new Intent(this, DkPlay.class);
+		Intent contentIntent = new Intent(this, CurPlaylist.class);
 		PendingIntent pContentIntent = PendingIntent.getActivity(this, 0, contentIntent, 0);
 
 		Intent prevIntent = new Intent(this, RemoteControlReceiver.class);
@@ -826,9 +864,86 @@ MediaPlayer.OnCompletionListener {
 
 		startForeground(notifyId, n);
 	}
+	@SuppressLint("NewApi")
+	private void startNotifyApi21(){
+		Bitmap icon;
+		//String coverName = curSong.getCover();
+		File cover = new File(curSong.getCoverUri().getPath());//Paths.getCoverFile(coverName);
+		if(cover.exists()){
+			icon = Image.decodeSquareBitmapFromPath(cover.getAbsolutePath(), 200);
+		}else{
+			icon = Image.decodeSampledBitmapFromResource(getResources(), R.drawable.default_cover, 200, 200);
+		}
+		//Bitmap logo = Image.decodeSampledBitmapFromResource(getResources(), R.drawable.ic_launcher, 100, 100);
+
+		Intent contentIntent = new Intent(this, CurPlaylist.class);
+		PendingIntent pContentIntent = PendingIntent.getActivity(this, 0, contentIntent, 0);
+
+		Intent prevIntent = new Intent(this, RemoteControlReceiver.class);
+		prevIntent.setAction(RemoteControl.ACTION_PREV);
+		PendingIntent pPrevIntent = PendingIntent.getBroadcast(this, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Intent playIntent = new Intent(this, RemoteControlReceiver.class);
+		playIntent.setAction(RemoteControl.ACTION_PLAY);
+		PendingIntent pPlayIntent = PendingIntent.getBroadcast(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		/*Intent stopIntent = new Intent(this, RemoteControlReceiver.class);
+		stopIntent.setAction(RemoteControl.ACTION_STOP);
+		PendingIntent pStopIntent = PendingIntent.getBroadcast(this, 0, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
+
+		Intent nextIntent = new Intent(this, RemoteControlReceiver.class);
+		nextIntent.setAction(RemoteControl.ACTION_NEXT);
+		PendingIntent pNextIntent = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Intent pauseIntent = new Intent(this, RemoteControlReceiver.class);
+		pauseIntent.setAction(RemoteControl.ACTION_PAUSE);
+		PendingIntent pPauseIntent = PendingIntent.getBroadcast(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Intent closeIntent = new Intent(this, RemoteControlReceiver.class);
+		closeIntent.setAction(RemoteControl.ACTION_CLOSE);
+		PendingIntent pCloseIntent = PendingIntent.getBroadcast(this, 0, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Builder builder;
+		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.small_notify_l);
+		remoteViews.setOnClickPendingIntent(R.id.next, pNextIntent);
+		remoteViews.setOnClickPendingIntent(R.id.close, pCloseIntent);
+		remoteViews.setImageViewBitmap(R.id.cover, icon);
+		remoteViews.setTextViewText(R.id.title1, curSong.getTitle());
+
+		RemoteViews remoteViews2 = new RemoteViews(getPackageName(), R.layout.big_notify_l);
+		remoteViews2.setOnClickPendingIntent(R.id.prev, pPrevIntent);
+		remoteViews2.setOnClickPendingIntent(R.id.next, pNextIntent);
+		remoteViews2.setOnClickPendingIntent(R.id.close, pCloseIntent);
+		remoteViews2.setImageViewBitmap(R.id.cover, icon);
+		remoteViews2.setTextViewText(R.id.title, curSong.getTitle());
+		remoteViews2.setTextViewText(R.id.artist, curSong.getArtist());
+
+		if(isPlaying()){
+			remoteViews.setOnClickPendingIntent(R.id.pause, pPauseIntent);
+			remoteViews2.setOnClickPendingIntent(R.id.pause, pPauseIntent);
+			remoteViews.setImageViewResource(R.id.pause, R.drawable.ic_action_pause_dark);
+			remoteViews2.setImageViewResource(R.id.pause, R.drawable.ic_action_pause_dark);
+		}else{
+			remoteViews.setImageViewResource(R.id.pause, R.drawable.ic_action_play_dark);
+			remoteViews2.setImageViewResource(R.id.pause, R.drawable.ic_action_play_dark);
+
+			remoteViews.setOnClickPendingIntent(R.id.pause, pPlayIntent);
+			remoteViews2.setOnClickPendingIntent(R.id.pause, pPlayIntent);
+		}
+		builder  = new Notification.Builder(this);
+		builder.setContent(remoteViews); 
+		builder.setSmallIcon(R.drawable.ic_stat_notify);
+		builder.setContentIntent(pContentIntent);
+
+		Notification n = builder.build();
+		n.bigContentView = remoteViews2;
+
+		startForeground(notifyId, n);
+	}
 	public void showOverlayPlayer(){
 		overlayPlayer = new OverlayPlayer(this, this);
 		overlayPlayer.show();
+		sendOverlayStarted();
 	}
 	public void hideOverlayPlayer(){
 		if(overlayPlayer != null){
@@ -843,7 +958,7 @@ MediaPlayer.OnCompletionListener {
 	private void updateMetadata(){
 		String artist = curSong.getArtist();
 		String title = curSong.getTitle();
-		String coverName = curSong.getCover();
+		String coverPath = curSong.getCoverUri().getPath();
 
 		MetadataEditor metadataEditor = remoteControlClient.editMetadata(true);
 		metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, artist);
@@ -851,7 +966,7 @@ MediaPlayer.OnCompletionListener {
 
 		metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, title);
 
-		File img = Paths.getCoverFile(coverName);
+		File img = new File(coverPath);
 		if(img.exists()){
 			Bitmap coverArt = BitmapFactory.decodeFile(img.getAbsolutePath());
 			metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, coverArt);

@@ -1,11 +1,15 @@
 package com.dk.play.database;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dk.play.adv.AdvSQLiteDataSource;
+import com.dk.play.adv.AdvSong;
 import com.dk.play.service.PlayService;
+import com.dk.play.util.Paths;
 
 import android.content.Context;
 import android.content.Intent;
@@ -76,6 +80,9 @@ public class SQLiteDataSource {
 	public void updateSong(SQLSong song){
 		song.SQLUpdate(database);
 	}
+	public void updateSongWithoutTime(SQLSong song){
+		song.SQLUpdateWithoutTime(database);
+	}
 	public SQLSongList getSQLSongList(){
 		SQLSongList list = new SQLSongList();
 
@@ -91,7 +98,24 @@ public class SQLiteDataSource {
 
 		return list;
 	}
-	
+	public SQLSong getSQLSong(long songId){
+
+		Cursor cursor = database.query(SQLiteHelper.TABLE_SONGS, allSongsColumns, SQLiteHelper.COLUMN_ID + "=?", new String[]{Long.toString(songId)}, null, null, null);
+		cursor.moveToFirst();
+		if(cursor.getCount() == 1){
+			return new SQLSong(cursor);
+		}
+		return null;
+	}
+	public SQLSong getSQLSong(String path){
+
+		Cursor cursor = database.query(SQLiteHelper.TABLE_SONGS, allSongsColumns, SQLiteHelper.COLUMN_PATH + "=?", new String[]{path}, null, null, null);
+		cursor.moveToFirst();
+		if(cursor.getCount() == 1){
+			return new SQLSong(cursor);
+		}
+		return null;
+	}
 	public void addPlaylist(SQLPlaylist playlist){
 		playlist.SQLInsert(database);
 	}
@@ -202,6 +226,22 @@ public class SQLiteDataSource {
 				playlist.SQLUpdate(database);
 			}
 		}
+		AdvSQLiteDataSource adv = new AdvSQLiteDataSource(ctx);
+		adv.open();
+		AdvSong advSong = adv.getAdvSongFromSQLSong(song);
+		if(advSong != null){
+			adv.removeAdvSong(advSong);
+		}
+		adv.close();
+		
+		String path = song.getPath();
+		if(path.startsWith(Paths.getAdvSongDir().getAbsolutePath())){
+			File file = new File(path);
+			File cover = new File(song.getCoverUri().getPath());
+			file.delete();
+			cover.delete();
+		}
+		
 		SQLRemoved rem = new SQLRemoved(0, song.getPath());
 		rem.SQLInsert(database);
 		song.SQLDelete(database);
