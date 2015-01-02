@@ -14,11 +14,13 @@ import android.util.Log;
 import com.dk.play.App;
 import com.dk.play.adv.AdvSQLiteDataSource;
 import com.dk.play.adv.AdvSong;
+import com.dk.play.database.SQLSong;
 
 public class CloudList {
 	private static final String TAG = "CloudList";
 	
 	private ArrayList<CloudItem> items = new ArrayList<CloudItem>();
+	private ArrayList<Long> songIds = new ArrayList<Long>();
 	
 	public CloudList(JSONArray files){
 		AdvSQLiteDataSource dataSource = new AdvSQLiteDataSource(App.getContextStatic());
@@ -47,6 +49,7 @@ public class CloudList {
 					onDevice = CloudItem.ON_CACHE;
 				}
 				if(advSong != null){
+					songIds.add(advSong.getLocalId());
 					Log.d(TAG, "onDevice3:" + onDevice);
 					if(advSong.valid()){
 						Log.d(TAG, "onDevice4:" + onDevice);
@@ -68,6 +71,18 @@ public class CloudList {
 			}
 		}
 		dataSource.close();
+	}
+	public boolean isSQLSongOnDisc(SQLSong song){
+		if(songIds.contains(song.getId())){
+			return true;
+		}
+		return false;
+	}
+	public boolean isSQLSongOnDisc(long id){
+		if(songIds.contains(id)){
+			return true;
+		}
+		return false;
 	}
 	public static boolean checkCache(String id){
 		Context context = App.getContextStatic();

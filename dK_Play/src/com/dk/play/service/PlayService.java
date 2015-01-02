@@ -47,6 +47,7 @@ import com.dk.play.util.OverlayPlayer;
 import com.dk.play.widget.WidgetBig2Receiver;
 import com.dk.play.widget.WidgetBigReceiver;
 
+@SuppressWarnings("deprecation")
 public class PlayService extends Service implements
 MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
 MediaPlayer.OnCompletionListener {
@@ -662,7 +663,9 @@ MediaPlayer.OnCompletionListener {
 		Log.e(TAG, "onError");
 		mp.reset();
 		playState = PLAY_STATE_STOP;
-		stopNotify();
+		if(loopState == LOOP_STATE_NO_LOOP){
+			stopNotify();
+		}
 		remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
 		updateWidgets();
 		Intent newLoop = new Intent(NEW_PLAY_STATE);
@@ -671,7 +674,6 @@ MediaPlayer.OnCompletionListener {
 		if(overlayPlayer != null){
 			overlayPlayer.setState(playState);
 		}
-		//Toast.makeText(this, "cool", Toast.LENGTH_LONG).show();
 		return false;
 	}
 

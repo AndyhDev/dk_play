@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.dk.play.adv.AdvSQLiteDataSource;
 import com.dk.play.util.CloudDeletedAdapter;
 
 public class CloudDeletedFragment extends Fragment implements OnItemClickListener{
+	private static final String TAG = "CloudDeletedFragment";
 	@SuppressWarnings("unused")
 	private Context context;
 	private ListView list;
@@ -38,6 +40,7 @@ public class CloudDeletedFragment extends Fragment implements OnItemClickListene
 		dataSource = new AdvSQLiteDataSource(getActivity());
 		dataSource.open();
 		List<AdvRemoved> items = dataSource.getAllAdvRemoved();
+		Log.d(TAG, "" + items.size());
 		dataSource.close();
 		adapter = new CloudDeletedAdapter(getActivity(), items);
 		
