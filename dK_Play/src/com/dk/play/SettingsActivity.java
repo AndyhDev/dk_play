@@ -68,8 +68,8 @@ public class SettingsActivity extends LActivity {
 			});
 			
 			if(android.os.Build.VERSION.SDK_INT < 21){
-				final PreferenceCategory lollipop = (PreferenceCategory) findPreference("lollipop");
-				final PreferenceScreen screen = (PreferenceScreen) findPreference("screen");
+				PreferenceScreen screen = getPreferenceScreen();
+				final PreferenceCategory lollipop = (PreferenceCategory) screen.findPreference("lollipop");
 				screen.removePreference(lollipop);
 			}
 			datasource = new SQLiteDataSource(getActivity());
