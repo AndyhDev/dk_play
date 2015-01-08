@@ -79,7 +79,7 @@ public final class R {
 		public static final int RelativeLayout1 = 0x7f0c003e;
 		public static final int action_ok = 0x7f0c00a6;
 		public static final int action_register = 0x7f0c00a2;
-		public static final int cancel = 0x7f0c001b;
+		public static final int cancel = 0x7f0c001f;
 		public static final int checkBox = 0x7f0c0052;
 		public static final int colorPicker = 0x7f0c003f;
 		public static final int color_prev = 0x7f0c0041;
