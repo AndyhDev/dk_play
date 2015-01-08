@@ -65,8 +65,11 @@ public class AdvSQLiteDataSource {
 		Cursor cursor = database.query(AdvSQLiteHelper.TABLE_SONGS, allSongsColumns, AdvSQLiteHelper.COLUMN_ID + "=?", new String[]{Long.toString(songId)}, null, null, null);
 		cursor.moveToFirst();
 		if(cursor.getCount() == 1){
-			return new AdvSong(cursor);
+			AdvSong song = new AdvSong(cursor);
+			cursor.close();
+			return song;
 		}
+		cursor.close();
 		return null;
 	}
 	public AdvSong getAdvSongFromServerId(String serverId){
@@ -79,13 +82,17 @@ public class AdvSQLiteDataSource {
 		Log.d(TAG, "count:" + cursor.getCount() );
 		if(cursor.getCount() == 1){
 			Log.d(TAG, "2");
-			return new AdvSong(cursor);
+			AdvSong song = new AdvSong(cursor);
+			cursor.close();
+			return song;
 		}else{
+			cursor.close();
 			if(create){
 				Log.d(TAG, "3");
 				return genAdvSong(serverId);
 			}
 		}
+		cursor.close();
 		return null;
 	}
 	public AdvSong getAdvSongFromSQLSong(SQLSong song){
@@ -100,8 +107,11 @@ public class AdvSQLiteDataSource {
 		cursor.moveToFirst();
 		Log.d(TAG, "count:" + cursor.getCount() );
 		if(cursor.getCount() == 1){
-			return new AdvSong(cursor);
+			AdvSong song = new AdvSong(cursor);
+			cursor.close();
+			return song;
 		}
+		cursor.close();
 		return null;
 	}
 

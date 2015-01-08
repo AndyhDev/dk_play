@@ -103,8 +103,11 @@ public class SQLiteDataSource {
 		Cursor cursor = database.query(SQLiteHelper.TABLE_SONGS, allSongsColumns, SQLiteHelper.COLUMN_ID + "=?", new String[]{Long.toString(songId)}, null, null, null);
 		cursor.moveToFirst();
 		if(cursor.getCount() == 1){
-			return new SQLSong(cursor);
+			SQLSong song = new SQLSong(cursor);
+			cursor.close();
+			return song;
 		}
+		cursor.close();
 		return null;
 	}
 	public SQLSong getSQLSong(String path){
@@ -112,8 +115,11 @@ public class SQLiteDataSource {
 		Cursor cursor = database.query(SQLiteHelper.TABLE_SONGS, allSongsColumns, SQLiteHelper.COLUMN_PATH + "=?", new String[]{path}, null, null, null);
 		cursor.moveToFirst();
 		if(cursor.getCount() == 1){
-			return new SQLSong(cursor);
+			SQLSong song = new SQLSong(cursor);
+			cursor.close();
+			return song;
 		}
+		cursor.close();
 		return null;
 	}
 	public void addPlaylist(SQLPlaylist playlist){
