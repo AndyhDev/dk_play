@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:padding="@dimen/widget_margin" >
+
+    <RelativeLayout
+        android:id="@+id/lay"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true" >
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="centerCrop"
+            android:src="@null" />
+
+        <ImageView
+            android:id="@+id/player_control_dark"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:alpha="0.4"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="centerCrop"
+            android:src="@null" />
+		
+        <ImageView
+            android:id="@+id/stop_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dk_random" />
+        
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitCenter"
+            android:src="@null" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -205,5 +205,5 @@
     <string name="img_license">Bildrechte:\nBalık avı © kmutlu - Fotolia.com\nNeu roter stempel © guukaa - Fotolia.com\nWiese Liegestuhl © JiSign - Fotolia.com</string>
     <string name="playlist_random">Zufallsmix</string>
     <string name="data_act">Daten werden Aktualisiert</string>
-
+	<string name="widget_random_name">dK Play Zufallswiedergabe</string>
 </resources>

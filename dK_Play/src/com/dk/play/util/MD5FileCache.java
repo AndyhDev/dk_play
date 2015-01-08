@@ -7,9 +7,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 
 import com.dk.play.App;
+import com.dk.play.R;
 import com.dk.play.database.SQLSong;
 import com.dk.play.database.SQLSongList;
 import com.dk.play.database.SQLiteDataSource;
@@ -44,6 +49,51 @@ public class MD5FileCache {
 			SQLSong song = songs.get(i);
 			getMd5(song.getPath());
 		}
+	}
+	public void genMd5Cache(final Activity activity){
+		PowerManager pm = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
+		final WakeLock lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "My Tag");
+		lock.acquire();
+		
+		Context context = App.getContextStatic();
+		SQLiteDataSource ds = new SQLiteDataSource(context);
+		ds.open();
+		final SQLSongList songs = ds.getSQLSongList();
+		ds.close();
+		
+		final ProgressDialog dlg = new ProgressDialog(activity);
+		dlg.setTitle(R.string.data_act);
+	    dlg.setMessage(activity.getString(R.string.please_wait));
+	    dlg.setCancelable(false);
+		dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		dlg.setIndeterminate(false);
+		dlg.setMax(songs.size());
+		dlg.show();
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				for(int i = 0; i < songs.size(); i++){
+					SQLSong song = songs.get(i);
+					getMd5(song.getPath());
+					final int index = i;
+					activity.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							dlg.setProgress(index + 1);
+						}
+					});
+				}
+				activity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						dlg.dismiss();
+					}
+				});
+				lock.release();
+			}
+		});
+		t.start();
 	}
 	public String getMd5(String path){
 		return getMd5(new File(path));

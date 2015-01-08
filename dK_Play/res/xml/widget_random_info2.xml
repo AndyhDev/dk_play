@@ -1,0 +1,10 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="40dp"
+    android:minHeight="40dp"
+    android:updatePeriodMillis="0"
+    android:previewImage="@drawable/dk_random_prev"
+    android:initialLayout="@layout/widget_random"
+    android:widgetCategory="home_screen"
+    android:minResizeHeight="40dp"
+    android:minResizeWidth="40dp">
+</appwidget-provider>

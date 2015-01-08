@@ -4,11 +4,14 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -285,22 +288,8 @@ public class Adv extends LActivity implements OnClickListener {
 	}
 
 	private void genMd5() {
-		final ProgressDialog progress = ProgressDialog.show(this, getString(R.string.data_act), getString(R.string.please_wait), true);
+		MD5FileCache cache = new MD5FileCache();
+		cache.genMd5Cache(Adv.this);
 
-		new Thread(new Runnable() {
-			@Override
-			public void run(){
-				MD5FileCache cache = new MD5FileCache();
-				cache.genMd5Cache();
-				
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run()
-					{
-						progress.dismiss();
-					}
-				});
-			}
-		}).start();
 	}
 }

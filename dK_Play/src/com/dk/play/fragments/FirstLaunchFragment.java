@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,8 +34,12 @@ public class FirstLaunchFragment extends Fragment implements OnClickListener {
 	private Button nextBnt;
 	private int foundCount = 0;
 	private SelectSearchFoldersDlg dlg;
+	private WakeLock lock;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
+		lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "My Tag");
+		lock.acquire();
 		context = this.getActivity();
 		layout = (RelativeLayout)inflater.inflate(R.layout.first_launch_fragment, container, false);
 		foundText = (TextView) layout.findViewById(R.id.found);
@@ -89,6 +95,7 @@ public class FirstLaunchFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if(v.getId() == R.id.next){
+			lock.release();
 			Intent intent = new Intent(this.getActivity(), DkPlay.class);
 			startActivity(intent);
 			this.getActivity().finish();

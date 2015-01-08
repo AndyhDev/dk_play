@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -46,6 +47,7 @@ import com.dk.play.util.Image;
 import com.dk.play.util.OverlayPlayer;
 import com.dk.play.widget.WidgetBig2Receiver;
 import com.dk.play.widget.WidgetBigReceiver;
+import com.dk.play.widget.WidgetRandom;
 
 @SuppressWarnings("deprecation")
 public class PlayService extends Service implements
@@ -957,6 +959,47 @@ MediaPlayer.OnCompletionListener {
 		hideOverlayPlayer();
 		stopForeground(true);
 	}
+	
+	private void doRandom(){
+		if(isPlaying()){
+			pause();
+		}else if(pause){
+			play();
+		}else{
+			SQLiteDataSource dataSource = new SQLiteDataSource(this);
+			dataSource.open();
+			SQLSongList raw = dataSource.getSQLSongList();
+			dataSource.close();
+			SQLSongList list = getRandomMix(raw);
+			setSQLSongList(list);
+			setSongByPos(0);
+			play();
+		}
+	}
+	
+	private Random r = new Random();
+	public int getRandom(int min, int max){
+		return r.nextInt(max - min + 1) + min;
+	}
+	
+	private SQLSongList getRandomMix(SQLSongList sqlSongList) {
+		int size = sqlSongList.size();
+		SQLSongList newList = new SQLSongList();
+		if(size > 35){
+			while(true){
+				SQLSong song = sqlSongList.get(getRandom(0, sqlSongList.size()-1));
+				if(!newList.isIn(song)){
+					newList.add(song);
+				}
+				if(newList.size() == 25){
+					break;
+				}
+			}
+			return newList;
+		}
+		return sqlSongList;
+	}
+	
 	private void updateMetadata(){
 		String artist = curSong.getArtist();
 		String title = curSong.getTitle();
@@ -1071,6 +1114,37 @@ MediaPlayer.OnCompletionListener {
 			manager.updateAppWidget(thisWidget, view);
 
 		}
+		view = new RemoteViews(getPackageName(), R.layout.widget_random);
+		if(curSong != null){
+			Bitmap cover = curSong.getCoverBitmap(250);
+			view.setImageViewBitmap(R.id.cover, cover);
+		}
+		
+		Intent playIntent = new Intent(this, RemoteControlReceiver.class);
+		playIntent.setAction(RemoteControl.ACTION_PLAY_RANDOM);
+		PendingIntent pPlayIntent = PendingIntent.getBroadcast(this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		view.setOnClickPendingIntent(R.id.play, pPlayIntent);
+		if(!isPlaying()){
+			if(pause){
+				view.setImageViewResource(R.id.play, R.drawable.ic_action_play);
+				view.setImageViewResource(R.id.stop_img, R.drawable.none);
+				view.setImageViewResource(R.id.player_control_dark, R.drawable.dark);
+			}else{
+				view.setImageViewResource(R.id.play, R.drawable.none);
+				view.setImageViewResource(R.id.cover, R.drawable.none);
+				view.setImageViewResource(R.id.player_control_dark, R.drawable.none);
+				view.setImageViewResource(R.id.stop_img, R.drawable.dk_random);
+			}
+		}else{
+			view.setImageViewResource(R.id.play, R.drawable.ic_action_pause);
+			view.setImageViewResource(R.id.stop_img, R.drawable.none);
+			view.setImageViewResource(R.id.player_control_dark, R.drawable.dark);
+		}
+			
+		ComponentName widget = new ComponentName(this, WidgetRandom.class);
+		AppWidgetManager manager = AppWidgetManager.getInstance(this);
+		manager.updateAppWidget(widget, view);
 	}
 	public class LockScreen extends BroadcastReceiver{
 		private long lastEvent = 0;
@@ -1114,6 +1188,7 @@ MediaPlayer.OnCompletionListener {
 		public static final String REMOTE_CONTROL = "REMOTE_CONTROL";
 		public static final String ACTION = "ACTION";
 		public static final String ACTION_PLAY = "ACTION_PLAY";
+		public static final String ACTION_PLAY_RANDOM = "ACTION_PLAY_RANDOM";
 		public static final String ACTION_STOP = "ACTION_STOP";
 		public static final String ACTION_PAUSE = "ACTION_PAUSE";
 		public static final String ACTION_PLAY_PAUSE = "ACTION_PLAY_PAUSE";
@@ -1147,6 +1222,8 @@ MediaPlayer.OnCompletionListener {
 				stopNotify();
 			}else if(action.equals(ACTION_LOOP)){
 				loop();
+			}else if(action.equals(ACTION_PLAY_RANDOM)){
+				doRandom();
 			}
 		}
 	}
