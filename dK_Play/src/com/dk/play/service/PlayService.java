@@ -988,9 +988,11 @@ MediaPlayer.OnCompletionListener {
 		if(size > 35){
 			while(true){
 				SQLSong song = sqlSongList.get(getRandom(0, sqlSongList.size()-1));
+				
 				if(!newList.isIn(song)){
 					newList.add(song);
 				}
+				
 				if(newList.size() == 25){
 					break;
 				}
