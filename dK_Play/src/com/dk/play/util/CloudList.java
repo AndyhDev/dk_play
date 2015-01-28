@@ -21,6 +21,7 @@ public class CloudList {
 	
 	private ArrayList<CloudItem> items = new ArrayList<CloudItem>();
 	private ArrayList<Long> songIds = new ArrayList<Long>();
+	private ArrayList<String> names = new ArrayList<String>();
 	
 	public CloudList(JSONArray files){
 		AdvSQLiteDataSource dataSource = new AdvSQLiteDataSource(App.getContextStatic());
@@ -44,6 +45,9 @@ public class CloudList {
 				int onDevice = CloudItem.NOT_ON_DEVICE;
 				Log.d(TAG, "onDevice1:" + onDevice);
 				AdvSong advSong = dataSource.getAdvSongFromServerId(id);
+				
+				this.names.add(title + " " + artist);
+				
 				if(checkCache(id)){
 					Log.d(TAG, "onDevice2:" + onDevice);
 					onDevice = CloudItem.ON_CACHE;
@@ -71,6 +75,9 @@ public class CloudList {
 			}
 		}
 		dataSource.close();
+	}
+	public ArrayList<String> getNames(){
+		return names;
 	}
 	public boolean isSQLSongOnDisc(SQLSong song){
 		if(songIds.contains(song.getId())){

@@ -77,8 +77,8 @@ public final class R {
 	}
 	public static final class id {
 		public static final int RelativeLayout1 = 0x7f0c003e;
-		public static final int action_ok = 0x7f0c00a6;
-		public static final int action_register = 0x7f0c00a2;
+		public static final int action_ok = 0x7f0c00a7;
+		public static final int action_register = 0x7f0c00a3;
 		public static final int cancel = 0x7f0c001f;
 		public static final int checkBox = 0x7f0c0052;
 		public static final int colorPicker = 0x7f0c003f;
@@ -96,6 +96,7 @@ public final class R {
 		public static final int horizontalScrollView1 = 0x7f0c0053;
 		public static final int imageButton1 = 0x7f0c0057;
 		public static final int imageView1 = 0x7f0c0012;
+		public static final int item = 0x7f0c0091;
 		public static final int ok = 0x7f0c0040;
 		public static final int relativeLayout1 = 0x7f0c0056;
 		public static final int text = 0x7f0c0042;
@@ -111,6 +112,7 @@ public final class R {
 		public static final int folder_selector = 0x7f030023;
 		public static final int folder_selector_dlg = 0x7f030024;
 		public static final int orange_button = 0x7f030032;
+		public static final int text_search_adapter = 0x7f030042;
 	}
 	public static final class menu {
 		public static final int dk_login = 0x7f0b0007;

@@ -2,6 +2,8 @@ package com.dk.play;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,14 +12,21 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.Window;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.SearchView.OnSuggestionListener;
 
 import com.dk.play.fragments.CloudSongsFragment;
 import com.dk.play.fragments.PlayerControlFragment;
 import com.dk.play.service.AdvService;
 import com.dk.play.util.ActionBarImage;
+import com.dk.play.util.CloudAdapter;
+import com.dk.play.util.CloudList;
 import com.dk.play.util.LActivity;
 import com.dk.play.util.NavDrawerFunc;
+import com.dk.util.TextSearchAdapter;
 
 public class CloudSongs extends LActivity {
 	@SuppressWarnings("unused")
@@ -26,11 +35,17 @@ public class CloudSongs extends LActivity {
 	private NavDrawerFunc navDrawerFunc;
 	private CloudSongsFragment frag1;
 	private PlayerControlFragment frag2;
-	
+
 	@SuppressWarnings("unused")
 	private ActionBarImage actionBarImage;
 	private boolean useBgImages = false;
-	
+
+	private SearchView search;
+
+	private TextSearchAdapter searchAdaper;
+
+	protected CloudList cList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		useBgImages = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("use_bg_images", false);
@@ -57,7 +72,7 @@ public class CloudSongs extends LActivity {
 		}else{
 			FragmentManager fragmentManager = getFragmentManager();
 			frag1 = (CloudSongsFragment) fragmentManager.findFragmentById(R.id.fragment1);
-			
+
 			frag2 = (PlayerControlFragment) fragmentManager.findFragmentById(R.id.fragment2);
 		}
 		actionBarImage = new ActionBarImage(this);
@@ -71,6 +86,59 @@ public class CloudSongs extends LActivity {
 		}else{
 			inflater.inflate(R.menu.cloud_songs, menu);
 		}
+		SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+		search = (SearchView) menu.findItem(R.id.action_search_song).getActionView();
+		final MenuItem searchItem = menu.findItem(R.id.action_search_song);
+
+		search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+		
+		searchItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				if(frag1 != null){
+					CloudAdapter adt = frag1.getAdapter();
+					cList = adt.getList();
+					searchAdaper = new TextSearchAdapter.Builder(CloudSongs.this, cList.getNames()).build();
+					search.setSuggestionsAdapter(searchAdaper);
+				}
+				return false;
+			}
+		});
+		search.setOnQueryTextListener(new OnQueryTextListener() { 
+
+			@Override 
+			public boolean onQueryTextChange(String query) {
+				if(searchAdaper != null){
+					searchAdaper.setQuery(query);
+				}
+				return true; 
+			}
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				searchItem.collapseActionView();
+				return true;
+			} 
+
+		});
+		search.setOnSuggestionListener(new OnSuggestionListener() {
+			
+			@Override
+			public boolean onSuggestionSelect(int position) {
+				return false;
+			}
+			
+			@Override
+			public boolean onSuggestionClick(int position) {
+				if(frag1 != null){
+					frag1.activateItem(searchAdaper.getOrginalPosition(position));
+				}
+				searchItem.collapseActionView();
+				return true;
+			}
+		});
 		return true;
 	}
 
@@ -90,7 +158,7 @@ public class CloudSongs extends LActivity {
 		}else if(id == R.id.cloud_sync_songs){
 			Intent advIntent = new Intent(this, AdvService.class); 
 			advIntent.setAction(AdvService.ACTION_BYPASS);
-	        startService(advIntent);
+			startService(advIntent);
 		}else if(id == R.id.adv){
 			startAdv();
 		}

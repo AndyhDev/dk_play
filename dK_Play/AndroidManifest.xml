@@ -184,6 +184,12 @@
         <activity
             android:name=".CloudSongs"
             android:label="@string/title_activity_cloud_songs" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/cloud_search" />
         </activity>
 
         <service android:name=".service.DownloadService" >

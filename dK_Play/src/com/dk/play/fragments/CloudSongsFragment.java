@@ -107,6 +107,32 @@ public class CloudSongsFragment extends Fragment implements OnItemClickListener{
 		return rootView;
 	}
 	
+	public CloudAdapter getAdapter(){
+		return adapter;
+	}
+	
+	public void scrollTo(int index){
+		list.setSelection(index);
+	}
+	public void activateItem(int index){
+		list.setSelection(index);
+		View expand = getViewByPosition(index).findViewById(R.id.expand);
+		ExpandAnimation expandAni = new ExpandAnimation(expand, 500);
+		expand.startAnimation(expandAni);
+		adapter.expandItem(index);
+		
+	}
+	public View getViewByPosition(int pos) {
+	    final int firstListItemPosition = list.getFirstVisiblePosition();
+	    final int lastListItemPosition = firstListItemPosition + list.getChildCount() - 1;
+
+	    if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+	        return list.getAdapter().getView(pos, null, list);
+	    } else {
+	        final int childIndex = pos - firstListItemPosition;
+	        return list.getChildAt(childIndex);
+	    }
+	}
 	public void readCloud(){
 		getActivity().setProgressBarIndeterminateVisibility(true);
 		Thread thread = new Thread(){

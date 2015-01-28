@@ -236,14 +236,14 @@ public final class R {
     public static final class id {
         public static final int RelativeLayout1=0x7f0c003e;
         public static final int account_state=0x7f0c0001;
-        public static final int action_ok=0x7f0c00a6;
-        public static final int action_re_create=0x7f0c00a4;
-        public static final int action_register=0x7f0c00a2;
-        public static final int action_removed_songs=0x7f0c00a5;
-        public static final int action_search=0x7f0c00a3;
-        public static final int action_search_song=0x7f0c009f;
-        public static final int action_settings=0x7f0c009a;
-        public static final int adv=0x7f0c009e;
+        public static final int action_ok=0x7f0c00a7;
+        public static final int action_re_create=0x7f0c00a5;
+        public static final int action_register=0x7f0c00a3;
+        public static final int action_removed_songs=0x7f0c00a6;
+        public static final int action_search=0x7f0c00a4;
+        public static final int action_search_song=0x7f0c009c;
+        public static final int action_settings=0x7f0c009b;
+        public static final int adv=0x7f0c00a0;
         public static final int all=0x7f0c0081;
         public static final int artist=0x7f0c0038;
         public static final int artist_edit=0x7f0c005f;
@@ -252,7 +252,7 @@ public final class R {
         public static final int close=0x7f0c0033;
         public static final int cloud_img=0x7f0c003b;
         public static final int cloud_in=0x7f0c0088;
-        public static final int cloud_sync_songs=0x7f0c009d;
+        public static final int cloud_sync_songs=0x7f0c009f;
         public static final int colorButton1=0x7f0c008d;
         public static final int colorPicker=0x7f0c003f;
         public static final int color_prev=0x7f0c0041;
@@ -261,14 +261,14 @@ public final class R {
         public static final int container2=0x7f0c000a;
         public static final int content_layout=0x7f0c0008;
         public static final int cover=0x7f0c001d;
-        public static final int cover_container=0x7f0c0091;
+        public static final int cover_container=0x7f0c0092;
         public static final int cover_image=0x7f0c0062;
-        public static final int cover_list=0x7f0c0092;
+        public static final int cover_list=0x7f0c0093;
         public static final int create=0x7f0c0068;
         public static final int custom=0x7f0c0082;
         public static final int delete=0x7f0c0043;
-        public static final int deleted_items=0x7f0c009c;
-        public static final int disconnect=0x7f0c0099;
+        public static final int deleted_items=0x7f0c009e;
+        public static final int disconnect=0x7f0c009a;
         public static final int dk_account_1=0x7f0c0048;
         public static final int dk_account_2=0x7f0c0049;
         public static final int dk_account_3=0x7f0c004a;
@@ -285,7 +285,7 @@ public final class R {
         public static final int expand=0x7f0c003c;
         public static final int folder=0x7f0c0055;
         public static final int folderStruct=0x7f0c0054;
-        public static final int folder_select=0x7f0c00a7;
+        public static final int folder_select=0x7f0c00a8;
         public static final int found=0x7f0c0051;
         public static final int fragment1=0x7f0c000e;
         public static final int fragment2=0x7f0c000f;
@@ -303,18 +303,19 @@ public final class R {
         public static final int imageView7=0x7f0c002e;
         public static final int imageView8=0x7f0c0030;
         public static final int imageView9=0x7f0c0032;
+        public static final int item=0x7f0c0091;
         public static final int item_artist=0x7f0c0085;
         public static final int item_cover=0x7f0c0083;
         public static final int item_title=0x7f0c0084;
         public static final int label1=0x7f0c008c;
-        public static final int lay=0x7f0c0095;
+        public static final int lay=0x7f0c0096;
         public static final int layout=0x7f0c0000;
         public static final int licenses=0x7f0c005c;
         public static final int linearLayout1=0x7f0c0034;
         public static final int list=0x7f0c0058;
         public static final int listView1=0x7f0c0059;
         public static final int list_view=0x7f0c005d;
-        public static final int loop=0x7f0c0094;
+        public static final int loop=0x7f0c0095;
         public static final int menu_layout=0x7f0c000b;
         public static final int more_space=0x7f0c0004;
         public static final int nav_drawer_list=0x7f0c0066;
@@ -322,7 +323,7 @@ public final class R {
         public static final int nav_icon=0x7f0c0063;
         public static final int nav_title=0x7f0c0064;
         public static final int new_bnt=0x7f0c005b;
-        public static final int new_login=0x7f0c0098;
+        public static final int new_login=0x7f0c0099;
         public static final int next=0x7f0c0037;
         public static final int normal=0x7f0c0080;
         public static final int ok=0x7f0c0040;
@@ -337,7 +338,7 @@ public final class R {
         public static final int overlay_player_prev=0x7f0c006e;
         public static final int overlay_player_title=0x7f0c006c;
         public static final int pause=0x7f0c0036;
-        public static final int play=0x7f0c0093;
+        public static final int play=0x7f0c0094;
         public static final int player_control=0x7f0c0065;
         public static final int player_control_bg=0x7f0c0073;
         public static final int player_control_dark=0x7f0c0074;
@@ -368,10 +369,10 @@ public final class R {
         public static final int progressBar1=0x7f0c0050;
         public static final int progress_account=0x7f0c0003;
         public static final int rating_edit=0x7f0c0061;
-        public static final int refresh=0x7f0c009b;
+        public static final int refresh=0x7f0c009d;
         public static final int relativeLayout1=0x7f0c0056;
-        public static final int reload=0x7f0c0097;
-        public static final int save=0x7f0c00a0;
+        public static final int reload=0x7f0c0098;
+        public static final int save=0x7f0c00a1;
         public static final int scrollView1=0x7f0c0016;
         public static final int show_gpl=0x7f0c0010;
         public static final int song_artist=0x7f0c003a;
@@ -384,9 +385,9 @@ public final class R {
         public static final int squareColorButton1=0x7f0c008e;
         public static final int squareColorButton2=0x7f0c008f;
         public static final int squareColorButton3=0x7f0c0090;
-        public static final int start_search=0x7f0c00a8;
+        public static final int start_search=0x7f0c00a9;
         public static final int status_text=0x7f0c003d;
-        public static final int stop_img=0x7f0c0096;
+        public static final int stop_img=0x7f0c0097;
         public static final int text=0x7f0c0042;
         public static final int textView1=0x7f0c0002;
         public static final int textView10=0x7f0c0017;
@@ -401,7 +402,7 @@ public final class R {
         public static final int title=0x7f0c001e;
         public static final int title1=0x7f0c0086;
         public static final int title_edit=0x7f0c005e;
-        public static final int toggle_overlay_player=0x7f0c00a1;
+        public static final int toggle_overlay_player=0x7f0c00a2;
         public static final int webView1=0x7f0c005a;
     }
     public static final class layout {
@@ -471,10 +472,11 @@ public final class R {
         public static final int song_old=0x7f03003f;
         public static final int special_playlist_fragment=0x7f030040;
         public static final int test=0x7f030041;
-        public static final int video_edit_fragment=0x7f030042;
-        public static final int widget2_big=0x7f030043;
-        public static final int widget_big=0x7f030044;
-        public static final int widget_random=0x7f030045;
+        public static final int text_search_adapter=0x7f030042;
+        public static final int video_edit_fragment=0x7f030043;
+        public static final int widget2_big=0x7f030044;
+        public static final int widget_big=0x7f030045;
+        public static final int widget_random=0x7f030046;
     }
     public static final class menu {
         public static final int adv=0x7f0b0000;
@@ -633,6 +635,7 @@ public final class R {
         public static final int save=0x7f08004d;
         public static final int save_current_playlist=0x7f080071;
         public static final int saved=0x7f08004f;
+        public static final int search=0x7f0800bc;
         public static final int search_end=0x7f0800aa;
         public static final int search_first_launch=0x7f080043;
         public static final int search_folder_all=0x7f0800a4;
@@ -670,7 +673,7 @@ public final class R {
         public static final int title_activity_playlist=0x7f080030;
         public static final int title_activity_removed=0x7f080028;
         public static final int title_activity_search=0x7f080027;
-        public static final int title_activity_settings=0x7f0800bc;
+        public static final int title_activity_settings=0x7f0800bd;
         public static final int title_activity_special_playlist=0x7f08003d;
         public static final int title_activity_video_edit=0x7f080047;
         public static final int title_activity_whats_new=0x7f08008a;
@@ -786,10 +789,11 @@ public final class R {
         public static final int _RedButton=0x7f090026;
     }
     public static final class xml {
-        public static final int searchable=0x7f050000;
-        public static final int settings=0x7f050001;
-        public static final int widget2_info=0x7f050002;
-        public static final int widget_info=0x7f050003;
-        public static final int widget_random_info2=0x7f050004;
+        public static final int cloud_search=0x7f050000;
+        public static final int searchable=0x7f050001;
+        public static final int settings=0x7f050002;
+        public static final int widget2_info=0x7f050003;
+        public static final int widget_info=0x7f050004;
+        public static final int widget_random_info2=0x7f050005;
     }
 }
