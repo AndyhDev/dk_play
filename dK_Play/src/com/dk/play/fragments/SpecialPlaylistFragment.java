@@ -235,7 +235,7 @@ public class SpecialPlaylistFragment extends Fragment {
 		}else if(specialId == R.id.playlist_date){
 			playlistName = "date";
 			SQLiteDatabase database = datasource.getDatabase();
-			String order = SQLiteHelper.COLUMN_TIME + " DESC";
+			String order = SQLiteHelper.COLUMN_ID + " DESC";
 			cursor = database.query(SQLiteHelper.TABLE_SONGS, datasource.allSongsColumns, null, null, null, null, order, limit);
 
 		}else if(specialId == R.id.playlist_click){
