@@ -1,15 +1,16 @@
 package com.dk.play.util;
 
-import com.dk.play.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Window;
+
+import com.dk.play.R;
 
 public class LActivity extends Activity{
 	
@@ -24,6 +25,7 @@ public class LActivity extends Activity{
 	private int orange;
 	private int defaultColor;
 	
+	private ProgressDialog progressDlg;
 	private SharedPreferences pref;
 	
 	@Override
@@ -50,6 +52,26 @@ public class LActivity extends Activity{
 		}
 	};
 	
+	public void showProgress(){
+		showProgress(getString(R.string.please_wait));
+	}
+	public void showProgress(int resId){
+		showProgress(getString(resId));
+	}
+	public void showProgress(String msg){
+		progressDlg = new ProgressDialog(this);
+		progressDlg.setTitle("");
+		progressDlg.setMessage(msg);
+		progressDlg.setCancelable(false);
+		progressDlg.setIndeterminate(true);
+		progressDlg.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDlg.show();
+	}
+	public void hideProgress(){
+		if(progressDlg != null){
+			progressDlg.dismiss();
+		}
+	}
 	private void readSettings() {
 		statusBarColoring = pref.getBoolean("status_bar_coloring", true);
 		navBarColoring = pref.getBoolean("nav_bar_coloring", true);
@@ -83,4 +105,5 @@ public class LActivity extends Activity{
 			}
 		}
 	}
+	
 }

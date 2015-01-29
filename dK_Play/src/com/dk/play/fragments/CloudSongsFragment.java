@@ -41,6 +41,7 @@ import com.dk.play.util.CloudList;
 import com.dk.play.util.DownloadSongDlg;
 import com.dk.play.util.DownloadSongDlgListener;
 import com.dk.play.util.ExpandAnimation;
+import com.dk.play.util.LActivity;
 import com.dk.play.util.YesNoDlg;
 import com.dk.play.util.YesNoDlgListener;
 import com.dk.style.dKColor;
@@ -135,6 +136,7 @@ public class CloudSongsFragment extends Fragment implements OnItemClickListener{
 	}
 	public void readCloud(){
 		getActivity().setProgressBarIndeterminateVisibility(true);
+		((LActivity)getActivity()).showProgress();
 		Thread thread = new Thread(){
 			@Override
 			public void run() {
@@ -148,12 +150,14 @@ public class CloudSongsFragment extends Fragment implements OnItemClickListener{
 						saveData();
 						processData();
 						getActivity().setProgressBarIndeterminateVisibility(false);
+						((LActivity)getActivity()).hideProgress();
 					}
 					
 					@Override
 					public void onApiCallError(int code) {
 						Toast.makeText(getActivity(), R.string.cloud_error1, Toast.LENGTH_LONG).show();
 						getActivity().setProgressBarIndeterminateVisibility(false);
+						((LActivity)getActivity()).hideProgress();
 					}
 				});
 				down.call();
