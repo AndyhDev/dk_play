@@ -16,7 +16,6 @@ public class AdvSQLiteDataSource {
 	private final String TAG = "AdvSQLiteDataSource";
 	private SQLiteDatabase database;
 	private AdvSQLiteHelper dbHelper;
-	@SuppressWarnings("unused")
 	private Context ctx;
 
 	public String[] allSongsColumns = { AdvSQLiteHelper.COLUMN_ID,

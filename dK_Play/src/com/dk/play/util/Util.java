@@ -10,7 +10,6 @@ import android.media.MediaMetadataRetriever;
 
 import com.dk.play.App;
 import com.dk.play.database.SQLSong;
-import com.dk.play.database.SQLSongList;
 import com.dk.play.database.SQLiteDataSource;
 
 public class Util {
